@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bafi | Rozcestník</title>
+  <!-- FontAwesome pro ikonky -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #0f0c20;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Canvas pro animované pozadí */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* Hlavní karta webu */
+    .container {
+      position: relative;
+      z-index: 2;
+      width: 90%;
+      max-width: 420px;
+      padding: 35px 22px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    /* Status tečka */
+    .status-dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+      background-color: #747f8d; /* default offline */
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+    }
+
+    .status-online { background-color: #2ecc71; box-shadow: 0 0 10px #2ecc71; }
+    .status-idle { background-color: #f1c40f; box-shadow: 0 0 10px #f1c40f; }
+    .status-dnd { background-color: #e74c3c; box-shadow: 0 0 10px #e74c3c; }
+
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Lanyard Rich Presence Box */
+    .activity-box {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+      color: #b9bbbe;
+      display: none; /* zobrazí se přes JS pokud je aktivita */
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .activity-box i {
+      font-size: 1.2rem;
+      color: #7289da;
+    }
+
+    .activity-details {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .activity-title {
+      font-weight: 600;
+      color: #fff;
+      font-size: 0.88rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .activity-subtitle {
+      font-size: 0.78rem;
+      color: #a3a6aa;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Seznam tlačítek */
+    .links-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 14px 20px;
+      border-radius: 14px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.98rem;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn i {
+      font-size: 1.3rem;
+      width: 28px;
+      margin-right: 12px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Individuální styly tlačítek */
+    .instagram:hover { border-color: #e1306c; color: #e1306c; }
+    .spotify:hover { border-color: #1ed760; color: #1ed760; }
+    .steam:hover { border-color: #66c0f4; color: #66c0f4; }
+    .discord-btn:hover { border-color: #5865f2; color: #5865f2; }
+    
+    .metin2 {
+      background: linear-gradient(135deg, rgba(114, 137, 218, 0.2), rgba(155, 89, 182, 0.2));
+      border: 1px solid rgba(114, 137, 218, 0.4);
+    }
+    .metin2:hover {
+      border-color: #7289da;
+      box-shadow: 0 0 15px rgba(114, 137, 218, 0.4);
+    }
+
+    .badge {
+      margin-left: auto;
+      font-size: 0.7rem;
+      background: #7289da;
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    footer {
+      margin-top: 25px;
+      font-size: 0.8rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animované pozadí -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Obsah rozcestníku -->
+  <div class="container">
+    
+    <h1>
+      <span id="status-dot" class="status-dot"></span>
+      Bafi
+    </h1>
+
+    <!-- Živá aktivita z Discordu -->
+    <div id="activity-box" class="activity-box">
+      <i id="activity-icon" class="fa-solid fa-gamepad"></i>
+      <div class="activity-details">
+        <span id="activity-title" class="activity-title">Aktivita</span>
+        <span id="activity-subtitle" class="activity-subtitle">...</span>
+      </div>
+    </div>
+
+    <div class="links-container">
+      
+      <!-- Metin2 Discord Projekt -->
+      <a href="https://discord.gg/m82ekXdGMs" target="_blank" class="btn metin2">
+        <i class="fa-brands fa-discord"></i>
+        <span>Metin2 Server</span>
+        <span class="badge">Admin</span>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://instagram.com/bafi889" target="_blank" class="btn instagram">
+        <i class="fa-brands fa-instagram"></i>
+        <span>Instagram</span>
+      </a>
+
+      <!-- Spotify -->
+      <a href="https://open.spotify.com/search/BafiTV" target="_blank" class="btn spotify">
+        <i class="fa-brands fa-spotify"></i>
+        <span>Spotify</span>
+      </a>
+
+      <!-- Steam -->
+      <a href="https://steamcommunity.com/id/Bafi_TV/" target="_blank" class="btn steam">
+        <i class="fa-brands fa-steam"></i>
+        <span>Steam Profil</span>
+      </a>
+
+      <!-- Discord Copy Tag -->
+      <div class="btn discord-btn" onclick="copyDiscord()">
+        <i class="fa-brands fa-discord"></i>
+        <span id="discord-text">Discord: bafi_tv88</span>
+      </div>
+
+    </div>
+
+    <footer>© 2026</footer>
+  </div>
+
+  <!-- Skripty pro animaci a Lanyard Discord API -->
+  <script>
+    // --- 1. Animované Pozadí ---
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const particleCount = 45;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.radius = Math.random() * 2 + 1;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.alpha = Math.random() * 0.5 + 0.2;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(147, 112, 219, ${this.alpha})`;
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // --- 2. Kopírování Discord Tagu ---
+    function copyDiscord() {
+      navigator.clipboard.writeText("bafi_tv88");
+      const el = document.getElementById("discord-text");
+      const originalText = el.innerText;
+      el.innerText = "Zkopírováno!";
+      setTimeout(() => { el.innerText = originalText; }, 2000);
+    }
+
+    // --- 3. Lanyard Discord Live API ---
+    const DISCORD_ID = "1032971864269668425";
+
+    async function fetchDiscordStatus() {
+      try {
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+        const data = await res.json();
+        
+        if (!data.success) return;
+
+        const { discord_status, listening_to_spotify, spotify, activities } = data.data;
+
+        // Nastavení status tečky
+        const statusDot = document.getElementById("status-dot");
+        statusDot.className = "status-dot status-" + discord_status;
+
+        // Aktivita / Spotify
+        const actBox = document.getElementById("activity-box");
+        const actTitle = document.getElementById("activity-title");
+        const actSub = document.getElementById("activity-subtitle");
+        const actIcon = document.getElementById("activity-icon");
+
+        if (listening_to_spotify && spotify) {
+          actBox.style.display = "flex";
+          actIcon.className = "fa-brands fa-spotify";
+          actIcon.style.color = "#1ed760";
+          actTitle.innerText = spotify.song;
+          actSub.innerText = "od " + spotify.artist;
+        } else if (activities && activities.length > 0) {
+          const game = activities.find(a => a.type === 0); // Type 0 je hra
+          if (game) {
+            actBox.style.display = "flex";
+            actIcon.className = "fa-solid fa-gamepad";
+            actIcon.style.color = "#7289da";
+            actTitle.innerText = "Hraje " + game.name;
+            actSub.innerText = game.details || game.state || "Právě ve hře";
+          } else {
+            actBox.style.display = "none";
+          }
+        } else {
+          actBox.style.display = "none";
+        }
+
+      } catch (err) {
+        console.log("Lanyard API chyba:", err);
+      }
+    }
+
+    fetchDiscordStatus();
+    setInterval(fetchDiscordStatus, 10000); // Obnovení každých 10 sekund
+  </script>
+</body>
+</html>

@@ -52,38 +52,14 @@
       margin: 20px 0;
     }
 
-    /* Status tečka */
-    .status-dot {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      margin-right: 8px;
-      background-color: #747f8d;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-    }
-
-    .status-online { background-color: #2ecc71; box-shadow: 0 0 12px #2ecc71; }
-    .status-idle { background-color: #f1c40f; box-shadow: 0 0 12px #f1c40f; }
-    .status-dnd { background-color: #e74c3c; box-shadow: 0 0 12px #e74c3c; }
-
     h1 {
-      font-size: 1.8rem;
+      font-size: 1.9rem;
       font-weight: 700;
       letter-spacing: 0.5px;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      margin-bottom: 24px;
     }
 
-    .status-text {
-      font-size: 0.85rem;
-      color: #a3a6aa;
-      margin-bottom: 18px;
-    }
-
-    /* Lanyard Rich Presence Box s Cover Art */
+    /* Lanyard Rich Presence Box s Cover Artem */
     .activity-box {
       background: rgba(0, 0, 0, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -224,6 +200,11 @@
       color: #fff;
     }
 
+    .badge-dnd { background: #e74c3c; color: #fff; }
+    .badge-online { background: #2ecc71; color: #fff; }
+    .badge-idle { background: #f1c40f; color: #000; }
+    .badge-offline { background: rgba(255, 255, 255, 0.12); color: #dcddde; }
+
     /* Individuální styly tlačítek */
     .instagram:hover { border-color: #e1306c; color: #e1306c; }
     .spotify:hover { border-color: #1ed760; color: #1ed760; }
@@ -248,19 +229,15 @@
 </head>
 <body>
 
-  <!-- Cool Interaktivní Pozadí -->
+  <!-- Interaktivní Pozadí -->
   <canvas id="bg-canvas"></canvas>
 
   <!-- Obsah rozcestníku -->
   <div class="container">
     
-    <h1>
-      <span id="status-dot" class="status-dot"></span>
-      Filip Bartek
-    </h1>
-    <div id="status-text" class="status-text">Offline</div>
+    <h1>Filip Bartek</h1>
 
-    <!-- Živá aktivita z Discordu s Cover Artem -->
+    <!-- Živá aktivita z Discordu -->
     <div id="activity-box" class="activity-box">
       <div class="activity-header">
         <img id="activity-cover" class="activity-cover" src="" alt="Cover">
@@ -283,42 +260,42 @@
 
     <div class="links-container">
       
-      <!-- Metin2 Discord Projekt -->
-      <a href="https://discord.gg/m82ekXdGMs" target="_blank" class="btn metin2">
-        <i class="fa-brands fa-discord"></i>
-        <span>Metin2 Server</span>
-        <span class="badge badge-admin">Admin</span>
-      </a>
-
-      <!-- Instagram -->
+      <!-- 1. Instagram -->
       <a href="https://instagram.com/bafi889" target="_blank" class="btn instagram">
         <i class="fa-brands fa-instagram"></i>
         <span>Instagram</span>
         <span class="badge">@bafi889</span>
       </a>
 
-      <!-- Spotify -->
+      <!-- 2. Spotify -->
       <a href="https://open.spotify.com/search/BafiTV" target="_blank" class="btn spotify">
         <i class="fa-brands fa-spotify"></i>
         <span>Spotify Profil</span>
       </a>
 
-      <!-- Steam -->
+      <!-- 3. Discord Copy Tag se živým stavem na dlaždici -->
+      <div class="btn discord-btn" onclick="copyDiscord()">
+        <i class="fa-brands fa-discord"></i>
+        <span id="discord-text">Discord: bafi_tv88</span>
+        <span id="discord-badge" class="badge">OFFLINE</span>
+      </div>
+
+      <!-- 4. Steam -->
       <a href="https://steamcommunity.com/id/Bafi_TV/" target="_blank" class="btn steam">
         <i class="fa-brands fa-steam"></i>
         <span>Steam Profil</span>
       </a>
 
-      <!-- Discord Copy Tag se živým stavem -->
-      <div class="btn discord-btn" onclick="copyDiscord()">
+      <!-- 5. Metin2 Discord Server -->
+      <a href="https://discord.gg/m82ekXdGMs" target="_blank" class="btn metin2">
         <i class="fa-brands fa-discord"></i>
-        <span id="discord-text">Discord: bafi_tv88</span>
-        <span id="discord-badge" class="badge">...</span>
-      </div>
+        <span>Metin2 Server</span>
+        <span class="badge badge-admin">Admin</span>
+      </a>
 
     </div>
 
-    <footer>© 2026</footer>
+    <footer>© 2026 • Všechna práva vyhrazena</footer>
   </div>
 
   <script>
@@ -397,7 +374,6 @@
           }
         }
 
-        // Propojení s myší
         if (mouse.x && mouse.y) {
           let mdx = particles[a].x - mouse.x;
           let mdy = particles[a].y - mouse.y;
@@ -427,7 +403,7 @@
       setTimeout(() => { el.innerText = originalText; }, 2000);
     }
 
-    // --- 3. Lanyard WebSocket (Real-Time Discord Integration) ---
+    // --- 3. Lanyard WebSocket Integration ---
     const DISCORD_ID = "1032971864269668425";
     let spotifyInterval = null;
     let gameInterval = null;
@@ -457,25 +433,11 @@
 
       const { discord_status, listening_to_spotify, spotify, activities } = lanyardData;
 
-      // Status tečka
-      const statusDot = document.getElementById("status-dot");
-      statusDot.className = "status-dot status-" + discord_status;
-
-      // Discord Badge na tlačítku
+      // Nastavení odznaku na dlaždici Discordu
       const discordBadge = document.getElementById("discord-badge");
       const statusMapUpper = { dnd: "DND", online: "ONLINE", idle: "IDLE", offline: "OFFLINE" };
       discordBadge.innerText = statusMapUpper[discord_status] || "OFFLINE";
-
-      // Custom Status z Discordu
-      const statusText = document.getElementById("status-text");
-      const customStatus = activities ? activities.find(a => a.type === 4) : null;
-      
-      if (customStatus && customStatus.state) {
-        statusText.innerText = customStatus.state;
-      } else {
-        const fallbackMap = { dnd: "Do Not Disturb", online: "Online", idle: "Idle", offline: "Offline" };
-        statusText.innerText = fallbackMap[discord_status] || "Offline";
-      }
+      discordBadge.className = "badge badge-" + (discord_status || "offline");
 
       // Elementy aktivity
       const actBox = document.getElementById("activity-box");
@@ -516,7 +478,6 @@
           actBox.style.display = "flex";
           spotifyProg.style.display = "none";
           
-          // Získání ikony hry
           if (game.assets && game.assets.large_image) {
             if (game.assets.large_image.startsWith("mp:external")) {
               actCover.src = "https://media.discordapp.net/" + game.assets.large_image.replace("mp:", "");

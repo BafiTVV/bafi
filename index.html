@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Můj Rozcestník</title>
+  <!-- FontAwesome pro ikonky -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #0f0c20;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Canvas pro animované pozadí */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* Hlavní karta webu */
+    .container {
+      position: relative;
+      z-index: 2;
+      width: 90%;
+      max-width: 420px;
+      padding: 30px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .profile-img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 3px solid #7289da;
+      margin-bottom: 12px;
+      box-shadow: 0 0 15px rgba(114, 137, 218, 0.5);
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    p.bio {
+      font-size: 0.9rem;
+      color: #b9bbbe;
+      margin-bottom: 24px;
+    }
+
+    /* Seznam tlačítek */
+    .links-container {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 14px 20px;
+      border-radius: 14px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn i {
+      font-size: 1.4rem;
+      width: 30px;
+      margin-right: 12px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Barvy a styly jednotlivých tlačítek */
+    .instagram:hover { border-color: #e1306c; color: #e1306c; }
+    .spotify:hover { border-color: #1ed760; color: #1ed760; }
+    .steam:hover { border-color: #66c0f4; color: #66c0f4; }
+    .tiktok:hover { border-color: #ff0050; color: #ff0050; }
+    
+    /* Metin2 & Discord Special Button */
+    .metin2 {
+      background: linear-gradient(135deg, rgba(114, 137, 218, 0.2), rgba(155, 89, 182, 0.2));
+      border: 1px solid rgba(114, 137, 218, 0.4);
+    }
+    
+    .metin2:hover {
+      border-color: #7289da;
+      box-shadow: 0 0 15px rgba(114, 137, 218, 0.4);
+    }
+
+    .badge {
+      margin-left: auto;
+      font-size: 0.7rem;
+      background: #7289da;
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    footer {
+      margin-top: 25px;
+      font-size: 0.75rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animované pozadí -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Obsah rozcestníku -->
+  <div class="container">
+    <!-- Profilový obrázek (změň URL za svou fotku/avatar) -->
+    <img src="https://via.placeholder.com/150" alt="Avatar" class="profile-img">
+    
+    <h1>Tvůj Nick / Jméno</h1>
+    <p class="bio">Gamer & Metin2 Discord Admin</p>
+
+    <div class="links-container">
+      
+      <!-- Metin2 Discord Projekt -->
+      <a href="https://discord.gg/TVUJ_LINK" target="_blank" class="btn metin2">
+        <i class="fa-brands fa-discord"></i>
+        <span>Metin2 Server</span>
+        <span class="badge">Admin</span>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://instagram.com/TVUJ_INSTAGRAM" target="_blank" class="btn instagram">
+        <i class="fa-brands fa-instagram"></i>
+        <span>Instagram</span>
+      </a>
+
+      <!-- TikTok -->
+      <a href="https://tiktok.com/@TVUJ_TIKTOK" target="_blank" class="btn tiktok">
+        <i class="fa-brands fa-tiktok"></i>
+        <span>TikTok</span>
+      </a>
+
+      <!-- Spotify -->
+      <a href="https://open.spotify.com/user/TVUJ_SPOTIFY" target="_blank" class="btn spotify">
+        <i class="fa-brands fa-spotify"></i>
+        <span>Spotify Playlist</span>
+      </a>
+
+      <!-- Steam -->
+      <a href="https://steamcommunity.com/id/TVUJ_STEAM" target="_blank" class="btn steam">
+        <i class="fa-brands fa-steam"></i>
+        <span>Steam Profil</span>
+      </a>
+
+    </div>
+
+    <footer>© 2026 • Přiloženo přes NFC</footer>
+  </div>
+
+  <!-- Skript pro animaci částic na pozadí -->
+  <script>
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let particles = [];
+    const particleCount = 45;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.radius = Math.random() * 2 + 1;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.alpha = Math.random() * 0.5 + 0.2;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+          this.reset();
+        }
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(147, 112, 219, ${this.alpha})`;
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Linky</title>
+  <title>Filip Bartek | Linky</title>
   <!-- FontAwesome pro ikonky -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -15,7 +15,7 @@
     }
 
     body {
-      background: #0f0c20;
+      background: #090713;
       color: #fff;
       min-height: 100vh;
       display: flex;
@@ -25,7 +25,7 @@
       position: relative;
     }
 
-    /* Canvas pro animované pozadí */
+    /* Interaktivní Plexus Canvas pozadí */
     #bg-canvas {
       position: fixed;
       top: 0;
@@ -42,12 +42,12 @@
       width: 90%;
       max-width: 420px;
       padding: 35px 22px;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(20, 16, 38, 0.55);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 24px;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.03);
       text-align: center;
       margin: 20px 0;
     }
@@ -63,14 +63,14 @@
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
     }
 
-    .status-online { background-color: #2ecc71; box-shadow: 0 0 10px #2ecc71; }
-    .status-idle { background-color: #f1c40f; box-shadow: 0 0 10px #f1c40f; }
-    .status-dnd { background-color: #e74c3c; box-shadow: 0 0 10px #e74c3c; }
+    .status-online { background-color: #2ecc71; box-shadow: 0 0 12px #2ecc71; }
+    .status-idle { background-color: #f1c40f; box-shadow: 0 0 12px #f1c40f; }
+    .status-dnd { background-color: #e74c3c; box-shadow: 0 0 12px #e74c3c; }
 
     h1 {
-      font-size: 1.9rem;
+      font-size: 1.8rem;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       margin-bottom: 4px;
       display: flex;
       align-items: center;
@@ -83,30 +83,35 @@
       margin-bottom: 18px;
     }
 
-    /* Lanyard Rich Presence Box */
+    /* Lanyard Rich Presence Box s Cover Art */
     .activity-box {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
       padding: 12px 14px;
       margin-bottom: 20px;
       font-size: 0.85rem;
       color: #b9bbbe;
       display: none;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       text-align: left;
     }
 
     .activity-header {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
-    .activity-header i {
-      font-size: 1.2rem;
-      color: #7289da;
+    .activity-cover {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      background: #181528;
+      flex-shrink: 0;
     }
 
     .activity-details {
@@ -117,9 +122,9 @@
     }
 
     .activity-title {
-      font-weight: 600;
+      font-weight: 700;
       color: #fff;
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -131,18 +136,19 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      margin-top: 2px;
     }
 
     /* Progress bar pro Spotify */
     .progress-container {
       width: 100%;
-      margin-top: 4px;
+      margin-top: 2px;
     }
 
     .progress-bar-bg {
       width: 100%;
       height: 4px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.12);
       border-radius: 2px;
       overflow: hidden;
     }
@@ -152,15 +158,16 @@
       width: 0%;
       background: #1ed760;
       border-radius: 2px;
-      transition: width 0.5s linear;
+      transition: width 0.3s linear;
     }
 
     .progress-time {
       display: flex;
       justify-content: space-between;
-      font-size: 0.7rem;
-      color: #72767d;
-      margin-top: 3px;
+      font-size: 0.72rem;
+      color: #8e9297;
+      margin-top: 4px;
+      font-weight: 500;
     }
 
     /* Seznam tlačítek */
@@ -174,14 +181,14 @@
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      padding: 14px 20px;
+      padding: 14px 18px;
       border-radius: 14px;
       text-decoration: none;
       color: #fff;
       font-weight: 600;
-      font-size: 0.98rem;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       transition: all 0.3s ease;
       cursor: pointer;
     }
@@ -189,14 +196,32 @@
     .btn i {
       font-size: 1.3rem;
       width: 28px;
-      margin-right: 12px;
+      margin-right: 10px;
       text-align: center;
     }
 
     .btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    /* Pravé odznaky na dlaždicích */
+    .badge {
+      margin-left: auto;
+      font-size: 0.7rem;
+      background: rgba(255, 255, 255, 0.12);
+      color: #dcddde;
+      padding: 3px 8px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .badge-admin {
+      background: #7289da;
+      color: #fff;
     }
 
     /* Individuální styly tlačítek */
@@ -214,17 +239,6 @@
       box-shadow: 0 0 15px rgba(114, 137, 218, 0.4);
     }
 
-    .badge {
-      margin-left: auto;
-      font-size: 0.7rem;
-      background: #7289da;
-      color: #fff;
-      padding: 3px 8px;
-      border-radius: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
     footer {
       margin-top: 25px;
       font-size: 0.8rem;
@@ -234,7 +248,7 @@
 </head>
 <body>
 
-  <!-- Animované pozadí -->
+  <!-- Cool Interaktivní Pozadí -->
   <canvas id="bg-canvas"></canvas>
 
   <!-- Obsah rozcestníku -->
@@ -242,14 +256,14 @@
     
     <h1>
       <span id="status-dot" class="status-dot"></span>
-      Bafi
+      Filip Bartek
     </h1>
     <div id="status-text" class="status-text">Offline</div>
 
-    <!-- Živá aktivita z Discordu -->
+    <!-- Živá aktivita z Discordu s Cover Artem -->
     <div id="activity-box" class="activity-box">
       <div class="activity-header">
-        <i id="activity-icon" class="fa-solid fa-gamepad"></i>
+        <img id="activity-cover" class="activity-cover" src="" alt="Cover">
         <div class="activity-details">
           <span id="activity-title" class="activity-title">Aktivita</span>
           <span id="activity-subtitle" class="activity-subtitle">...</span>
@@ -273,19 +287,20 @@
       <a href="https://discord.gg/m82ekXdGMs" target="_blank" class="btn metin2">
         <i class="fa-brands fa-discord"></i>
         <span>Metin2 Server</span>
-        <span class="badge">Admin</span>
+        <span class="badge badge-admin">Admin</span>
       </a>
 
       <!-- Instagram -->
       <a href="https://instagram.com/bafi889" target="_blank" class="btn instagram">
         <i class="fa-brands fa-instagram"></i>
         <span>Instagram</span>
+        <span class="badge">@bafi889</span>
       </a>
 
       <!-- Spotify -->
       <a href="https://open.spotify.com/search/BafiTV" target="_blank" class="btn spotify">
         <i class="fa-brands fa-spotify"></i>
-        <span>Spotify</span>
+        <span>Spotify Profil</span>
       </a>
 
       <!-- Steam -->
@@ -294,10 +309,11 @@
         <span>Steam Profil</span>
       </a>
 
-      <!-- Discord Copy Tag -->
+      <!-- Discord Copy Tag se živým stavem -->
       <div class="btn discord-btn" onclick="copyDiscord()">
         <i class="fa-brands fa-discord"></i>
         <span id="discord-text">Discord: bafi_tv88</span>
+        <span id="discord-badge" class="badge">...</span>
       </div>
 
     </div>
@@ -306,11 +322,26 @@
   </div>
 
   <script>
-    // --- 1. Animované Pozadí ---
+    // --- 1. Interaktivní Plexus Canvas Pozadí ---
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
-    const particleCount = 45;
+    const particleCount = 65;
+    const maxDistance = 120;
+
+    let mouse = { x: null, y: null, radius: 150 };
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        mouse.x = e.touches[0].clientX;
+        mouse.y = e.touches[0].clientY;
+      }
+    });
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
@@ -325,9 +356,8 @@
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.radius = Math.random() * 2 + 1;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.alpha = Math.random() * 0.5 + 0.2;
+        this.vx = (Math.random() - 0.5) * 0.8;
+        this.vy = (Math.random() - 0.5) * 0.8;
       }
       update() {
         this.x += this.vx;
@@ -337,7 +367,7 @@
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(147, 112, 219, ${this.alpha})`;
+        ctx.fillStyle = 'rgba(155, 120, 255, 0.7)';
         ctx.fill();
       }
     }
@@ -346,7 +376,44 @@
 
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => { p.update(); p.draw(); });
+      
+      for (let a = 0; a < particles.length; a++) {
+        particles[a].update();
+        particles[a].draw();
+
+        for (let b = a + 1; b < particles.length; b++) {
+          let dx = particles[a].x - particles[b].x;
+          let dy = particles[a].y - particles[b].y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < maxDistance) {
+            let opacity = 1 - (dist / maxDistance);
+            ctx.strokeStyle = `rgba(138, 92, 246, ${opacity * 0.35})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(particles[a].x, particles[a].y);
+            ctx.lineTo(particles[b].x, particles[b].y);
+            ctx.stroke();
+          }
+        }
+
+        // Propojení s myší
+        if (mouse.x && mouse.y) {
+          let mdx = particles[a].x - mouse.x;
+          let mdy = particles[a].y - mouse.y;
+          let mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+          if (mdist < mouse.radius) {
+            let mopacity = 1 - (mdist / mouse.radius);
+            ctx.strokeStyle = `rgba(192, 132, 252, ${mopacity * 0.5})`;
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.moveTo(particles[a].x, particles[a].y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+          }
+        }
+      }
+
       requestAnimationFrame(animate);
     }
     animate();
@@ -378,7 +445,6 @@
       const hrs = Math.floor(totalSec / 3600);
       const min = Math.floor((totalSec % 3600) / 60);
       const sec = Math.floor(totalSec % 60);
-      
       const pad = (n) => n < 10 ? '0' + n : n;
       return hrs > 0 ? `${pad(hrs)}:${pad(min)}:${pad(sec)}` : `${pad(min)}:${pad(sec)}`;
     }
@@ -395,6 +461,11 @@
       const statusDot = document.getElementById("status-dot");
       statusDot.className = "status-dot status-" + discord_status;
 
+      // Discord Badge na tlačítku
+      const discordBadge = document.getElementById("discord-badge");
+      const statusMapUpper = { dnd: "DND", online: "ONLINE", idle: "IDLE", offline: "OFFLINE" };
+      discordBadge.innerText = statusMapUpper[discord_status] || "OFFLINE";
+
       // Custom Status z Discordu
       const statusText = document.getElementById("status-text");
       const customStatus = activities ? activities.find(a => a.type === 4) : null;
@@ -408,9 +479,9 @@
 
       // Elementy aktivity
       const actBox = document.getElementById("activity-box");
+      const actCover = document.getElementById("activity-cover");
       const actTitle = document.getElementById("activity-title");
       const actSub = document.getElementById("activity-subtitle");
-      const actIcon = document.getElementById("activity-icon");
       const spotifyProg = document.getElementById("spotify-progress");
       const progFill = document.getElementById("progress-fill");
       const timeCur = document.getElementById("time-current");
@@ -419,8 +490,7 @@
       if (listening_to_spotify && spotify) {
         actBox.style.display = "flex";
         spotifyProg.style.display = "block";
-        actIcon.className = "fa-brands fa-spotify";
-        actIcon.style.color = "#1ed760";
+        actCover.src = spotify.album_art_url;
         actTitle.innerText = spotify.song;
         actSub.innerText = "od " + spotify.artist;
 
@@ -445,8 +515,18 @@
         if (game) {
           actBox.style.display = "flex";
           spotifyProg.style.display = "none";
-          actIcon.className = "fa-solid fa-gamepad";
-          actIcon.style.color = "#7289da";
+          
+          // Získání ikony hry
+          if (game.assets && game.assets.large_image) {
+            if (game.assets.large_image.startsWith("mp:external")) {
+              actCover.src = "https://media.discordapp.net/" + game.assets.large_image.replace("mp:", "");
+            } else {
+              actCover.src = `https://cdn.discordapp.com/app-assets/${game.application_id}/${game.assets.large_image}.png`;
+            }
+          } else {
+            actCover.src = "https://cdn.discordapp.com/embed/avatars/0.png";
+          }
+
           actTitle.innerText = "Hraje " + game.name;
 
           if (game.timestamps && game.timestamps.start) {

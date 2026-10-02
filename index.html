@@ -59,7 +59,7 @@
       height: 12px;
       border-radius: 50%;
       margin-right: 8px;
-      background-color: #747f8d; /* default offline */
+      background-color: #747f8d;
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
     }
 
@@ -71,28 +71,40 @@
       font-size: 1.9rem;
       font-weight: 700;
       letter-spacing: 1px;
-      margin-bottom: 18px;
+      margin-bottom: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .status-text {
+      font-size: 0.85rem;
+      color: #a3a6aa;
+      margin-bottom: 18px;
     }
 
     /* Lanyard Rich Presence Box */
     .activity-box {
       background: rgba(0, 0, 0, 0.25);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 10px 14px;
+      border-radius: 14px;
+      padding: 12px 14px;
       margin-bottom: 20px;
       font-size: 0.85rem;
       color: #b9bbbe;
       display: none;
-      align-items: center;
-      gap: 10px;
+      flex-direction: column;
+      gap: 8px;
       text-align: left;
     }
 
-    .activity-box i {
+    .activity-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .activity-header i {
       font-size: 1.2rem;
       color: #7289da;
     }
@@ -101,6 +113,7 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      width: 100%;
     }
 
     .activity-title {
@@ -118,6 +131,36 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    /* Progress bar pro Spotify */
+    .progress-container {
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #1ed760;
+      border-radius: 2px;
+      transition: width 0.5s linear;
+    }
+
+    .progress-time {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: #72767d;
+      margin-top: 3px;
     }
 
     /* Seznam tlačítek */
@@ -201,13 +244,26 @@
       <span id="status-dot" class="status-dot"></span>
       Bafi
     </h1>
+    <div id="status-text" class="status-text">Offline</div>
 
     <!-- Živá aktivita z Discordu -->
     <div id="activity-box" class="activity-box">
-      <i id="activity-icon" class="fa-solid fa-gamepad"></i>
-      <div class="activity-details">
-        <span id="activity-title" class="activity-title">Aktivita</span>
-        <span id="activity-subtitle" class="activity-subtitle">...</span>
+      <div class="activity-header">
+        <i id="activity-icon" class="fa-solid fa-gamepad"></i>
+        <div class="activity-details">
+          <span id="activity-title" class="activity-title">Aktivita</span>
+          <span id="activity-subtitle" class="activity-subtitle">...</span>
+        </div>
+      </div>
+      <!-- Spotify Progress Bar -->
+      <div id="spotify-progress" class="progress-container" style="display: none;">
+        <div class="progress-bar-bg">
+          <div id="progress-fill" class="progress-bar-fill"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current">0:00</span>
+          <span id="time-total">0:00</span>
+        </div>
       </div>
     </div>
 
@@ -249,7 +305,6 @@
     <footer>© 2026</footer>
   </div>
 
-  <!-- Skripty pro animaci a Lanyard Discord API -->
   <script>
     // --- 1. Animované Pozadí ---
     const canvas = document.getElementById('bg-canvas');
@@ -305,56 +360,138 @@
       setTimeout(() => { el.innerText = originalText; }, 2000);
     }
 
-    // --- 3. Lanyard Discord Live API ---
+    // --- 3. Lanyard WebSocket (Real-Time Discord Integration) ---
     const DISCORD_ID = "1032971864269668425";
+    let spotifyInterval = null;
+    let gameInterval = null;
 
-    async function fetchDiscordStatus() {
-      try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
-        const data = await res.json();
-        
-        if (!data.success) return;
+    function formatTime(ms) {
+      const totalSec = Math.floor(ms / 1000);
+      const min = Math.floor(totalSec / 60);
+      const sec = Math.floor(totalSec % 60);
+      return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+    }
 
-        const { discord_status, listening_to_spotify, spotify, activities } = data.data;
+    function formatGameTime(startMs) {
+      const elapsedMs = Date.now() - startMs;
+      const totalSec = Math.floor(elapsedMs / 1000);
+      const hrs = Math.floor(totalSec / 3600);
+      const min = Math.floor((totalSec % 3600) / 60);
+      const sec = Math.floor(totalSec % 60);
+      
+      const pad = (n) => n < 10 ? '0' + n : n;
+      return hrs > 0 ? `${pad(hrs)}:${pad(min)}:${pad(sec)}` : `${pad(min)}:${pad(sec)}`;
+    }
 
-        // Nastavení status tečky
-        const statusDot = document.getElementById("status-dot");
-        statusDot.className = "status-dot status-" + discord_status;
+    function updateLanyardData(lanyardData) {
+      if (!lanyardData) return;
 
-        // Aktivita / Spotify
-        const actBox = document.getElementById("activity-box");
-        const actTitle = document.getElementById("activity-title");
-        const actSub = document.getElementById("activity-subtitle");
-        const actIcon = document.getElementById("activity-icon");
+      clearInterval(spotifyInterval);
+      clearInterval(gameInterval);
 
-        if (listening_to_spotify && spotify) {
+      const { discord_status, listening_to_spotify, spotify, activities } = lanyardData;
+
+      // Status tečka
+      const statusDot = document.getElementById("status-dot");
+      statusDot.className = "status-dot status-" + discord_status;
+
+      // Custom Status z Discordu
+      const statusText = document.getElementById("status-text");
+      const customStatus = activities ? activities.find(a => a.type === 4) : null;
+      
+      if (customStatus && customStatus.state) {
+        statusText.innerText = customStatus.state;
+      } else {
+        const fallbackMap = { dnd: "Do Not Disturb", online: "Online", idle: "Idle", offline: "Offline" };
+        statusText.innerText = fallbackMap[discord_status] || "Offline";
+      }
+
+      // Elementy aktivity
+      const actBox = document.getElementById("activity-box");
+      const actTitle = document.getElementById("activity-title");
+      const actSub = document.getElementById("activity-subtitle");
+      const actIcon = document.getElementById("activity-icon");
+      const spotifyProg = document.getElementById("spotify-progress");
+      const progFill = document.getElementById("progress-fill");
+      const timeCur = document.getElementById("time-current");
+      const timeTot = document.getElementById("time-total");
+
+      if (listening_to_spotify && spotify) {
+        actBox.style.display = "flex";
+        spotifyProg.style.display = "block";
+        actIcon.className = "fa-brands fa-spotify";
+        actIcon.style.color = "#1ed760";
+        actTitle.innerText = spotify.song;
+        actSub.innerText = "od " + spotify.artist;
+
+        const updateSpotify = () => {
+          const now = Date.now();
+          const start = spotify.timestamps.start;
+          const end = spotify.timestamps.end;
+          const total = end - start;
+          const current = Math.min(now - start, total);
+          const pct = Math.min(Math.max((current / total) * 100, 0), 100);
+
+          progFill.style.width = pct + "%";
+          timeCur.innerText = formatTime(current);
+          timeTot.innerText = formatTime(total);
+        };
+
+        updateSpotify();
+        spotifyInterval = setInterval(updateSpotify, 1000);
+
+      } else if (activities && activities.length > 0) {
+        const game = activities.find(a => a.type === 0);
+        if (game) {
           actBox.style.display = "flex";
-          actIcon.className = "fa-brands fa-spotify";
-          actIcon.style.color = "#1ed760";
-          actTitle.innerText = spotify.song;
-          actSub.innerText = "od " + spotify.artist;
-        } else if (activities && activities.length > 0) {
-          const game = activities.find(a => a.type === 0);
-          if (game) {
-            actBox.style.display = "flex";
-            actIcon.className = "fa-solid fa-gamepad";
-            actIcon.style.color = "#7289da";
-            actTitle.innerText = "Hraje " + game.name;
-            actSub.innerText = game.details || game.state || "Právě ve hře";
+          spotifyProg.style.display = "none";
+          actIcon.className = "fa-solid fa-gamepad";
+          actIcon.style.color = "#7289da";
+          actTitle.innerText = "Hraje " + game.name;
+
+          if (game.timestamps && game.timestamps.start) {
+            const updateGameTime = () => {
+              const durationStr = formatGameTime(game.timestamps.start);
+              actSub.innerText = (game.details ? game.details + " • " : "") + durationStr;
+            };
+            updateGameTime();
+            gameInterval = setInterval(updateGameTime, 1000);
           } else {
-            actBox.style.display = "none";
+            actSub.innerText = game.details || game.state || "Právě ve hře";
           }
         } else {
           actBox.style.display = "none";
+          spotifyProg.style.display = "none";
         }
-
-      } catch (err) {
-        console.log("Lanyard API chyba:", err);
+      } else {
+        actBox.style.display = "none";
+        spotifyProg.style.display = "none";
       }
     }
 
-    fetchDiscordStatus();
-    setInterval(fetchDiscordStatus, 10000);
+    function connectLanyardWS() {
+      const ws = new WebSocket("wss://api.lanyard.rest/socket");
+
+      ws.onopen = () => {
+        ws.send(JSON.stringify({
+          op: 2,
+          d: { subscribe_to_id: DISCORD_ID }
+        }));
+      };
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.t === "INIT_STATE" || data.t === "PRESENCE_UPDATE") {
+          updateLanyardData(data.d);
+        }
+      };
+
+      ws.onclose = () => {
+        setTimeout(connectLanyardWS, 5000);
+      };
+    }
+
+    connectLanyardWS();
   </script>
 </body>
 </html>

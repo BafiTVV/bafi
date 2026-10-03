@@ -126,7 +126,7 @@
       margin-top: 2px;
     }
 
-    /* Animovaný Progress Bar s přesně oříznutým svitem */
+    /* Animovaný Progress Bar */
     .progress-container {
       width: 100%;
       margin-top: 2px;
@@ -149,10 +149,9 @@
       box-shadow: 0 0 10px rgba(192, 132, 252, 0.6);
       transition: width 0.3s linear;
       position: relative;
-      overflow: hidden; /* Ořízne přesahující světelný záblesk */
+      overflow: hidden;
     }
 
-    /* Shimmer efekt oříznutý pouze na odehranou část */
     .progress-bar-fill::after {
       content: '';
       position: absolute;
@@ -176,6 +175,18 @@
       color: #a3a6aa;
       margin-top: 4px;
       font-weight: 500;
+    }
+
+    /* Informace o naposledy online */
+    .last-online-info {
+      font-size: 0.75rem;
+      color: #8e9297;
+      margin-top: -12px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     /* Seznam tlačítek */
@@ -214,7 +225,6 @@
       background: rgba(255, 255, 255, 0.14);
     }
 
-    /* Pravé odznaky na dlaždicích */
     .badge {
       margin-left: auto;
       font-size: 0.7rem;
@@ -227,17 +237,12 @@
       font-weight: 600;
     }
 
-    .badge-admin {
-      background: #7289da;
-      color: #fff;
-    }
-
+    .badge-admin { background: #7289da; color: #fff; }
     .badge-dnd { background: #e74c3c; color: #fff; }
     .badge-online { background: #2ecc71; color: #fff; }
     .badge-idle { background: #f1c40f; color: #000; }
     .badge-offline { background: rgba(255, 255, 255, 0.12); color: #dcddde; }
 
-    /* Individuální styly tlačítek */
     .instagram:hover { border-color: #e1306c; color: #e1306c; }
     .spotify:hover { border-color: #1ed760; color: #1ed760; }
     .steam:hover { border-color: #66c0f4; color: #66c0f4; }
@@ -253,9 +258,23 @@
     }
 
     footer {
-      margin-top: 25px;
+      margin-top: 22px;
       font-size: 0.8rem;
-      color: #666;
+      color: #8e9297;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .dnd-note {
+      font-size: 0.73rem;
+      color: #a0a5ac;
+      background: rgba(231, 76, 60, 0.12);
+      border: 1px solid rgba(231, 76, 60, 0.25);
+      border-radius: 10px;
+      padding: 6px 10px;
+      display: inline-block;
+      margin-top: 4px;
     }
   </style>
 </head>
@@ -264,10 +283,15 @@
   <!-- Interaktivní Pozadí -->
   <canvas id="bg-canvas"></canvas>
 
-  <!-- Obsah rozcestníku -->
   <div class="container">
     
     <h1>Filip Bartek</h1>
+
+    <!-- Naposledy online indikátor -->
+    <div class="last-online-info">
+      <i class="fa-regular fa-clock"></i>
+      <span id="last-online-text">Načítám stav...</span>
+    </div>
 
     <!-- Živá aktivita z Discordu -->
     <div id="activity-box" class="activity-box">
@@ -320,7 +344,7 @@
         <span>Spotify Profil</span>
       </a>
 
-      <!-- 3. Discord Copy Tag se živým stavem na dlaždici -->
+      <!-- 3. Discord Copy Tag -->
       <div class="btn discord-btn" onclick="copyDiscord()">
         <i class="fa-brands fa-discord"></i>
         <span id="discord-text">Discord: bafi_tv88</span>
@@ -342,35 +366,29 @@
 
     </div>
 
-    <footer>© 2026 • Všechna práva vyhrazena</footer>
+    <footer>
+      <div class="dnd-note">
+        <i class="fa-solid fa-moon"></i> DND stav mám jen kvůli Discordu, ale i tak jsem stále na příjmu!
+      </div>
+      <span>© 2026 • Všechna práva vyhrazena</span>
+    </footer>
   </div>
 
   <script>
-    // --- 1. Interaktivní Plexus Canvas Pozadí ---
+    // --- 1. Canvas Pozadí ---
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
     const particleCount = 65;
     const maxDistance = 120;
-
     let mouse = { x: null, y: null, radius: 150 };
 
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.x;
-      mouse.y = e.y;
-    });
-
+    window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
     window.addEventListener('touchmove', (e) => {
-      if (e.touches.length > 0) {
-        mouse.x = e.touches[0].clientX;
-        mouse.y = e.touches[0].clientY;
-      }
+      if (e.touches.length > 0) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }
     });
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
@@ -384,8 +402,7 @@
         this.vy = (Math.random() - 0.5) * 0.8;
       }
       update() {
-        this.x += this.vx;
-        this.y += this.vy;
+        this.x += this.vx; this.y += this.vy;
         if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
       }
       draw() {
@@ -400,16 +417,12 @@
 
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
       for (let a = 0; a < particles.length; a++) {
-        particles[a].update();
-        particles[a].draw();
-
+        particles[a].update(); particles[a].draw();
         for (let b = a + 1; b < particles.length; b++) {
           let dx = particles[a].x - particles[b].x;
           let dy = particles[a].y - particles[b].y;
           let dist = Math.sqrt(dx * dx + dy * dy);
-
           if (dist < maxDistance) {
             let opacity = 1 - (dist / maxDistance);
             ctx.strokeStyle = `rgba(138, 92, 246, ${opacity * 0.35})`;
@@ -420,28 +433,12 @@
             ctx.stroke();
           }
         }
-
-        if (mouse.x && mouse.y) {
-          let mdx = particles[a].x - mouse.x;
-          let mdy = particles[a].y - mouse.y;
-          let mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-          if (mdist < mouse.radius) {
-            let mopacity = 1 - (mdist / mouse.radius);
-            ctx.strokeStyle = `rgba(192, 132, 252, ${mopacity * 0.5})`;
-            ctx.lineWidth = 1.2;
-            ctx.beginPath();
-            ctx.moveTo(particles[a].x, particles[a].y);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.stroke();
-          }
-        }
       }
-
       requestAnimationFrame(animate);
     }
     animate();
 
-    // --- 2. Kopírování Discord Tagu ---
+    // --- 2. Copy Discord Tag ---
     function copyDiscord() {
       navigator.clipboard.writeText("bafi_tv88");
       const el = document.getElementById("discord-text");
@@ -450,7 +447,7 @@
       setTimeout(() => { el.innerText = originalText; }, 2000);
     }
 
-    // --- 3. Lanyard WebSocket Integration ---
+    // --- 3. Lanyard Integration & Naposledy Online Sledování ---
     const DISCORD_ID = "1032971864269668425";
     let spotifyInterval = null;
     let gameInterval = null;
@@ -472,6 +469,37 @@
       return hrs > 0 ? `${pad(hrs)}:${pad(min)}:${pad(sec)}` : `${pad(min)}:${pad(sec)}`;
     }
 
+    function updateLastOnlineText(status) {
+      const lastOnlineEl = document.getElementById("last-online-text");
+      
+      if (status !== "offline") {
+        localStorage.setItem("last_online_time", Date.now());
+        lastOnlineEl.innerText = "Aktivní právě teď";
+        return;
+      }
+
+      const savedTime = localStorage.getItem("last_online_time");
+      if (!savedTime) {
+        lastOnlineEl.innerText = "Naposledy online: Nedávno";
+        return;
+      }
+
+      const diffMs = Date.now() - parseInt(savedTime);
+      const diffMins = Math.floor(diffMs / (1000 * 60));
+      const diffHours = Math.floor(diffMins / 60);
+
+      if (diffMins < 2) {
+        lastOnlineEl.innerText = "Naposledy online: Před chvílí";
+      } else if (diffMins < 60) {
+        lastOnlineEl.innerText = `Naposledy online: před ${diffMins} min`;
+      } else if (diffHours < 24) {
+        lastOnlineEl.innerText = `Naposledy online: před ${diffHours} hod`;
+      } else {
+        const d = new Date(parseInt(savedTime));
+        lastOnlineEl.innerText = `Naposledy online: ${d.toLocaleDateString('cs-CZ')} v ${d.toLocaleTimeString('cs-CZ', {hour: '2-digit', minute:'2-digit'})}`;
+      }
+    }
+
     function updateLanyardData(lanyardData) {
       if (!lanyardData) return;
 
@@ -480,7 +508,10 @@
 
       const { discord_status, listening_to_spotify, spotify, activities } = lanyardData;
 
-      // Nastavení odznaku na dlaždici Discordu
+      // Aktualizace naposledy online
+      updateLastOnlineText(discord_status);
+
+      // Nastavení odznaku
       const discordBadge = document.getElementById("discord-badge");
       const statusMapUpper = { dnd: "DND", online: "ONLINE", idle: "IDLE", offline: "OFFLINE" };
       discordBadge.innerText = statusMapUpper[discord_status] || "OFFLINE";
@@ -503,7 +534,7 @@
       let hasGame = false;
       let hasSpotify = false;
 
-      // HRA
+      // Hra
       if (activities && activities.length > 0) {
         const game = activities.find(a => a.type === 0);
         if (game) {
@@ -539,7 +570,7 @@
         gameItem.style.display = "none";
       }
 
-      // SPOTIFY
+      // Spotify
       if (listening_to_spotify && spotify) {
         hasSpotify = true;
         spotifyItem.style.display = "flex";
@@ -566,7 +597,6 @@
         spotifyItem.style.display = "none";
       }
 
-      // Zobrazení/skrytí celého boxu
       if (hasGame || hasSpotify) {
         actBox.style.display = "flex";
       } else {

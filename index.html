@@ -25,7 +25,6 @@
       position: relative;
     }
 
-    /* Interaktivní Plexus Canvas pozadí */
     #bg-canvas {
       position: fixed;
       top: 0;
@@ -35,7 +34,6 @@
       z-index: 1;
     }
 
-    /* Hlavní karta webu */
     .container {
       position: relative;
       z-index: 2;
@@ -59,7 +57,6 @@
       margin-bottom: 24px;
     }
 
-    /* Lanyard Rich Presence Box */
     .activity-box {
       background: rgba(0, 0, 0, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -126,7 +123,27 @@
       margin-top: 2px;
     }
 
-    /* Animovaný Progress Bar */
+    .listen-btn {
+      margin-left: auto;
+      background: #1ed760;
+      color: #000;
+      padding: 6px 10px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .listen-btn:hover {
+      background: #1fdf64;
+      transform: scale(1.05);
+    }
+
     .progress-container {
       width: 100%;
       margin-top: 2px;
@@ -144,28 +161,12 @@
     .progress-bar-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #8a5cf6, #c084fc, #e879f9);
+      background: linear-gradient(90deg, #1ed760, #1fdf64);
       border-radius: 3px;
-      box-shadow: 0 0 10px rgba(192, 132, 252, 0.6);
+      box-shadow: 0 0 10px rgba(30, 215, 96, 0.6);
       transition: width 0.3s linear;
       position: relative;
       overflow: hidden;
-    }
-
-    .progress-bar-fill::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-      animation: shimmer 2s infinite;
-    }
-
-    @keyframes shimmer {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
     }
 
     .progress-time {
@@ -177,7 +178,6 @@
       font-weight: 500;
     }
 
-    /* Informace o naposledy online */
     .last-online-info {
       font-size: 0.75rem;
       color: #8e9297;
@@ -189,7 +189,6 @@
       gap: 6px;
     }
 
-    /* Seznam tlačítek */
     .links-container {
       display: flex;
       flex-direction: column;
@@ -280,22 +279,17 @@
 </head>
 <body>
 
-  <!-- Interaktivní Pozadí -->
   <canvas id="bg-canvas"></canvas>
 
   <div class="container">
-    
     <h1>Filip Bartek</h1>
 
-    <!-- Naposledy online indikátor -->
     <div class="last-online-info">
       <i class="fa-regular fa-clock"></i>
       <span id="last-online-text">Načítám stav...</span>
     </div>
 
-    <!-- Živá aktivita z Discordu -->
     <div id="activity-box" class="activity-box">
-      
       <!-- Hra -->
       <div id="game-item" class="activity-item" style="display: none;">
         <div class="activity-header">
@@ -307,7 +301,7 @@
         </div>
       </div>
 
-      <!-- Spotify -->
+      <!-- Spotify s tlačítkem Přehrát -->
       <div id="spotify-item" class="activity-item" style="display: none;">
         <div class="activity-header">
           <img id="spotify-cover" class="activity-cover" src="" alt="Album Cover">
@@ -315,6 +309,9 @@
             <span id="spotify-title" class="activity-title">Song</span>
             <span id="spotify-subtitle" class="activity-subtitle">Artist</span>
           </div>
+          <a id="spotify-listen-btn" href="#" target="_blank" class="listen-btn">
+            <i class="fa-solid fa-play"></i> Pustit
+          </a>
         </div>
         <div class="progress-container">
           <div class="progress-bar-bg">
@@ -326,44 +323,36 @@
           </div>
         </div>
       </div>
-
     </div>
 
     <div class="links-container">
-      
-      <!-- 1. Instagram -->
       <a href="https://instagram.com/bafi889" target="_blank" class="btn instagram">
         <i class="fa-brands fa-instagram"></i>
         <span>Instagram</span>
         <span class="badge">@bafi889</span>
       </a>
 
-      <!-- 2. Spotify -->
       <a href="https://open.spotify.com/search/BafiTV" target="_blank" class="btn spotify">
         <i class="fa-brands fa-spotify"></i>
         <span>Spotify Profil</span>
       </a>
 
-      <!-- 3. Discord Copy Tag -->
       <div class="btn discord-btn" onclick="copyDiscord()">
         <i class="fa-brands fa-discord"></i>
         <span id="discord-text">Discord: bafi_tv88</span>
         <span id="discord-badge" class="badge">OFFLINE</span>
       </div>
 
-      <!-- 4. Steam -->
       <a href="https://steamcommunity.com/id/Bafi_TV/" target="_blank" class="btn steam">
         <i class="fa-brands fa-steam"></i>
         <span>Steam Profil</span>
       </a>
 
-      <!-- 5. Metin2 Discord Server -->
       <a href="https://discord.gg/m82ekXdGMs" target="_blank" class="btn metin2">
         <i class="fa-brands fa-discord"></i>
         <span>Metin2 Server</span>
         <span class="badge badge-admin">Admin</span>
       </a>
-
     </div>
 
     <footer>
@@ -375,7 +364,6 @@
   </div>
 
   <script>
-    // --- 1. Canvas Pozadí ---
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -438,7 +426,6 @@
     }
     animate();
 
-    // --- 2. Copy Discord Tag ---
     function copyDiscord() {
       navigator.clipboard.writeText("bafi_tv88");
       const el = document.getElementById("discord-text");
@@ -447,7 +434,6 @@
       setTimeout(() => { el.innerText = originalText; }, 2000);
     }
 
-    // --- 3. Lanyard Integration & Naposledy Online Sledování ---
     const DISCORD_ID = "1032971864269668425";
     let spotifyInterval = null;
     let gameInterval = null;
@@ -508,10 +494,8 @@
 
       const { discord_status, listening_to_spotify, spotify, activities } = lanyardData;
 
-      // Aktualizace naposledy online
       updateLastOnlineText(discord_status);
 
-      // Nastavení odznaku
       const discordBadge = document.getElementById("discord-badge");
       const statusMapUpper = { dnd: "DND", online: "ONLINE", idle: "IDLE", offline: "OFFLINE" };
       discordBadge.innerText = statusMapUpper[discord_status] || "OFFLINE";
@@ -527,6 +511,7 @@
       const spotifyCover = document.getElementById("spotify-cover");
       const spotifyTitle = document.getElementById("spotify-title");
       const spotifySub = document.getElementById("spotify-subtitle");
+      const spotifyListenBtn = document.getElementById("spotify-listen-btn");
       const progFill = document.getElementById("progress-fill");
       const timeCur = document.getElementById("time-current");
       const timeTot = document.getElementById("time-total");
@@ -577,6 +562,14 @@
         spotifyCover.src = spotify.album_art_url;
         spotifyTitle.innerText = spotify.song;
         spotifySub.innerText = "od " + spotify.artist;
+
+        // Odkaz na písničku na Spotify
+        if (spotify.track_id) {
+          spotifyListenBtn.href = `https://open.spotify.com/track/${spotify.track_id}`;
+          spotifyListenBtn.style.display = "inline-flex";
+        } else {
+          spotifyListenBtn.style.display = "none";
+        }
 
         const updateSpotify = () => {
           const now = Date.now();

@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Filip Bartek | Linky</title>
-  <!-- FontAwesome pro ikonky -->
+  <title>Bafi | Linky</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
@@ -15,7 +14,7 @@
     }
 
     body {
-      background: #090713;
+      background: #000000;
       color: #fff;
       min-height: 100vh;
       display: flex;
@@ -39,163 +38,43 @@
       z-index: 2;
       width: 90%;
       max-width: 420px;
-      padding: 35px 22px;
-      background: rgba(20, 16, 38, 0.55);
+      padding: 40px 24px;
+      background: rgba(12, 12, 12, 0.65);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 24px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 28px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.02);
       text-align: center;
-      margin: 20px 0;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
-      font-size: 1.9rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: 1px;
       margin-bottom: 24px;
-    }
-
-    .activity-box {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 12px 14px;
-      margin-bottom: 20px;
-      font-size: 0.85rem;
-      color: #b9bbbe;
-      display: none;
-      flex-direction: column;
-      gap: 12px;
-      text-align: left;
-    }
-
-    .activity-item {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .activity-item + .activity-item {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding-top: 10px;
-    }
-
-    .activity-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .activity-cover {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      object-fit: cover;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      background: #181528;
-      flex-shrink: 0;
-    }
-
-    .activity-details {
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      width: 100%;
-    }
-
-    .activity-title {
-      font-weight: 700;
-      color: #fff;
-      font-size: 0.88rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .activity-subtitle {
-      font-size: 0.78rem;
-      color: #a3a6aa;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-top: 2px;
-    }
-
-    .listen-btn {
-      margin-left: auto;
-      background: linear-gradient(135deg, #8a5cf6, #7289da);
-      color: #fff;
-      padding: 6px 12px;
-      border-radius: 20px;
-      text-decoration: none;
-      font-size: 0.72rem;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.3s ease;
-      flex-shrink: 0;
-      box-shadow: 0 0 10px rgba(138, 92, 246, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .listen-btn:hover {
-      background: linear-gradient(135deg, #9b51e0, #8a5cf6);
-      transform: scale(1.06);
-      box-shadow: 0 0 18px rgba(155, 81, 224, 0.8);
-      color: #fff;
-    }
-
-    .progress-container {
-      width: 100%;
-      margin-top: 2px;
-    }
-
-    .progress-bar-bg {
-      width: 100%;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 3px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #7289da, #9b51e0);
-      border-radius: 3px;
-      box-shadow: 0 0 10px rgba(155, 81, 224, 0.8);
-      transition: width 0.3s linear;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .progress-time {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.72rem;
-      color: #a3a6aa;
-      margin-top: 4px;
-      font-weight: 500;
-    }
-
-    .last-online-info {
-      font-size: 0.75rem;
-      color: #8e9297;
-      margin-top: -12px;
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      background: linear-gradient(135deg, #ffffff, #a1a1a1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
     }
 
     .links-container {
       display: flex;
       flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Mřížka pro dvě tlačítka vedle sebe */
+    .split-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
 
@@ -203,81 +82,92 @@
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      padding: 14px 18px;
-      border-radius: 14px;
+      padding: 16px 20px;
+      border-radius: 16px;
       text-decoration: none;
       color: #fff;
       font-weight: 600;
-      font-size: 0.95rem;
-      background: rgba(255, 255, 255, 0.06);
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      transition: all 0.3s ease;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-split {
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      padding: 14px 10px;
+      gap: 6px;
     }
 
     .btn i {
-      font-size: 1.3rem;
-      width: 28px;
-      margin-right: 10px;
+      font-size: 1.5rem;
+      width: 32px;
       text-align: center;
+      transition: transform 0.3s ease;
     }
 
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-      background: rgba(255, 255, 255, 0.14);
+    .btn:not(.btn-split) i {
+      margin-right: 12px;
+    }
+
+    .btn-split i {
+      margin-right: 0;
+    }
+
+    .btn-split span.title {
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .btn-split span.sub {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.6);
     }
 
     .badge {
       margin-left: auto;
-      font-size: 0.7rem;
-      background: rgba(255, 255, 255, 0.12);
-      color: #dcddde;
-      padding: 3px 8px;
-      border-radius: 8px;
-      text-transform: uppercase;
+      font-size: 0.75rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: #d1d1d1;
+      padding: 4px 10px;
+      border-radius: 10px;
       letter-spacing: 0.5px;
       font-weight: 600;
     }
 
-    .badge-admin { background: #7289da; color: #fff; }
-    .badge-dnd { background: #e74c3c; color: #fff; }
-    .badge-online { background: #2ecc71; color: #fff; }
-    .badge-idle { background: #f1c40f; color: #000; }
-    .badge-offline { background: rgba(255, 255, 255, 0.12); color: #dcddde; }
-
-    .instagram:hover { border-color: #e1306c; color: #e1306c; }
-    .spotify:hover { border-color: #9b51e0; color: #9b51e0; }
-    .steam:hover { border-color: #66c0f4; color: #66c0f4; }
-    .discord-btn:hover { border-color: #5865f2; color: #5865f2; }
-    
-    .metin2 {
-      background: linear-gradient(135deg, rgba(114, 137, 218, 0.2), rgba(155, 89, 182, 0.2));
-      border: 1px solid rgba(114, 137, 218, 0.4);
+    /* Styl pro Discord */
+    .discord:hover {
+      border-color: rgba(88, 101, 242, 0.8);
+      box-shadow: 0 0 20px rgba(88, 101, 242, 0.4);
+      transform: translateY(-4px) scale(1.02);
+      background: linear-gradient(135deg, rgba(88, 101, 242, 0.15), rgba(88, 101, 242, 0.05));
     }
-    .metin2:hover {
-      border-color: #7289da;
-      box-shadow: 0 0 15px rgba(114, 137, 218, 0.4);
+    .discord:hover i {
+      color: #5865F2;
+      transform: scale(1.2);
+    }
+
+    /* Styk pro Instagram */
+    .instagram:hover {
+      border-color: rgba(225, 48, 108, 0.8);
+      box-shadow: 0 0 20px rgba(225, 48, 108, 0.4);
+      transform: translateY(-4px) scale(1.02);
+      background: linear-gradient(135deg, rgba(225, 48, 108, 0.15), rgba(253, 29, 29, 0.1));
+    }
+    .instagram:hover i {
+      color: #e1306c;
+      transform: scale(1.2) rotate(-5deg);
     }
 
     footer {
-      margin-top: 22px;
+      margin-top: 30px;
       font-size: 0.8rem;
-      color: #8e9297;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .dnd-note {
-      font-size: 0.73rem;
-      color: #a0a5ac;
-      background: rgba(231, 76, 60, 0.12);
-      border: 1px solid rgba(231, 76, 60, 0.25);
-      border-radius: 10px;
-      padding: 6px 10px;
-      display: inline-block;
-      margin-top: 4px;
+      color: #666;
     }
   </style>
 </head>
@@ -286,101 +176,49 @@
   <canvas id="bg-canvas"></canvas>
 
   <div class="container">
-    <h1>Filip Bartek</h1>
-
-    <div class="last-online-info">
-      <i class="fa-regular fa-clock"></i>
-      <span id="last-online-text">Načítám stav...</span>
-    </div>
-
-    <div id="activity-box" class="activity-box">
-      <!-- Hra -->
-      <div id="game-item" class="activity-item" style="display: none;">
-        <div class="activity-header">
-          <img id="game-cover" class="activity-cover" src="" alt="Game Icon">
-          <div class="activity-details">
-            <span id="game-title" class="activity-title">Hraje ...</span>
-            <span id="game-subtitle" class="activity-subtitle">...</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Spotify s tlačítkem Přehrát -->
-      <div id="spotify-item" class="activity-item" style="display: none;">
-        <div class="activity-header">
-          <img id="spotify-cover" class="activity-cover" src="" alt="Album Cover">
-          <div class="activity-details">
-            <span id="spotify-title" class="activity-title">Song</span>
-            <span id="spotify-subtitle" class="activity-subtitle">Artist</span>
-          </div>
-          <a id="spotify-listen-btn" href="#" target="_blank" class="listen-btn">
-            <i class="fa-solid fa-play"></i> Pustit
-          </a>
-        </div>
-        <div class="progress-container">
-          <div class="progress-bar-bg">
-            <div id="progress-fill" class="progress-bar-fill"></div>
-          </div>
-          <div class="progress-time">
-            <span id="time-current">0:00</span>
-            <span id="time-total">0:00</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <h1>Bafi</h1>
 
     <div class="links-container">
-      <a href="https://instagram.com/bafi889" target="_blank" class="btn instagram">
-        <i class="fa-brands fa-instagram"></i>
-        <span>Instagram</span>
-        <span class="badge">@bafi889</span>
-      </a>
-
-      <a href="https://open.spotify.com/search/BafiTV" target="_blank" class="btn spotify">
-        <i class="fa-brands fa-spotify"></i>
-        <span>Spotify Profil</span>
-      </a>
-
-      <div class="btn discord-btn" onclick="copyDiscord()">
+      <!-- Admin Discord (celá dlaždice) -->
+      <a href="https://discord.gg/" target="_blank" class="btn discord">
         <i class="fa-brands fa-discord"></i>
-        <span id="discord-text">Discord: bafi_tv88</span>
-        <span id="discord-badge" class="badge">OFFLINE</span>
+        <span>Admin Discord</span>
+        <span class="badge">Server</span>
+      </a>
+
+      <!-- 2 dlaždice vedle sebe pod Admin Discordem -->
+      <div class="split-row">
+        <a href="https://www.instagram.com/n1ggram/" target="_blank" class="btn btn-split instagram">
+          <i class="fa-brands fa-instagram"></i>
+          <span class="title">Můj Secret</span>
+          <span class="sub">@n1ggram</span>
+        </a>
+
+        <a href="https://www.instagram.com/bafi_a_dave_irl/" target="_blank" class="btn btn-split instagram">
+          <i class="fa-brands fa-instagram"></i>
+          <span class="title">Účet Dua</span>
+          <span class="sub">@bafi_a_dave_irl</span>
+        </a>
       </div>
-
-      <a href="https://steamcommunity.com/id/Bafi_TV/" target="_blank" class="btn steam">
-        <i class="fa-brands fa-steam"></i>
-        <span>Steam Profil</span>
-      </a>
-
-      <a href="https://discord.gg/m82ekXdGMs" target="_blank" class="btn metin2">
-        <i class="fa-brands fa-discord"></i>
-        <span>Metin2 Server</span>
-        <span class="badge badge-admin">Admin</span>
-      </a>
     </div>
 
     <footer>
-      <div class="dnd-note">
-        <i class="fa-solid fa-moon"></i> DND stav mám jen kvůli Discordu, ale i tak jsem stále na příjmu!
-      </div>
-      <span>© 2026 • Všechna práva vyhrazena</span>
+      <span>© 2026 • Bafi</span>
     </footer>
   </div>
 
   <script>
+    // Animace pozadí
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
-    const particleCount = 65;
-    const maxDistance = 120;
-    let mouse = { x: null, y: null, radius: 150 };
+    const particleCount = 70;
+    const maxDistance = 110;
 
-    window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
-    window.addEventListener('touchmove', (e) => {
-      if (e.touches.length > 0) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }
-    });
-
-    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
@@ -389,18 +227,19 @@
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.radius = Math.random() * 2 + 1;
-        this.vx = (Math.random() - 0.5) * 0.8;
-        this.vy = (Math.random() - 0.5) * 0.8;
+        this.radius = Math.random() * 2 + 0.5;
+        this.vx = (Math.random() - 0.5) * 0.6;
+        this.vy = (Math.random() - 0.5) * 0.6;
       }
       update() {
-        this.x += this.vx; this.y += this.vy;
+        this.x += this.vx;
+        this.y += this.vy;
         if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
       }
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(155, 120, 255, 0.7)';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
         ctx.fill();
       }
     }
@@ -410,14 +249,15 @@
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (let a = 0; a < particles.length; a++) {
-        particles[a].update(); particles[a].draw();
+        particles[a].update();
+        particles[a].draw();
         for (let b = a + 1; b < particles.length; b++) {
           let dx = particles[a].x - particles[b].x;
           let dy = particles[a].y - particles[b].y;
           let dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < maxDistance) {
             let opacity = 1 - (dist / maxDistance);
-            ctx.strokeStyle = `rgba(138, 92, 246, ${opacity * 0.35})`;
+            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.15})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(particles[a].x, particles[a].y);
@@ -429,200 +269,6 @@
       requestAnimationFrame(animate);
     }
     animate();
-
-    function copyDiscord() {
-      navigator.clipboard.writeText("bafi_tv88");
-      const el = document.getElementById("discord-text");
-      const originalText = el.innerText;
-      el.innerText = "Zkopírováno!";
-      setTimeout(() => { el.innerText = originalText; }, 2000);
-    }
-
-    const DISCORD_ID = "1032971864269668425";
-    let spotifyInterval = null;
-    let gameInterval = null;
-
-    function formatTime(ms) {
-      const totalSec = Math.floor(ms / 1000);
-      const min = Math.floor(totalSec / 60);
-      const sec = Math.floor(totalSec % 60);
-      return `${min}:${sec < 10 ? '0' : ''}${sec}`;
-    }
-
-    function formatGameTime(startMs) {
-      const elapsedMs = Date.now() - startMs;
-      const totalSec = Math.floor(elapsedMs / 1000);
-      const hrs = Math.floor(totalSec / 3600);
-      const min = Math.floor((totalSec % 3600) / 60);
-      const sec = Math.floor(totalSec % 60);
-      const pad = (n) => n < 10 ? '0' + n : n;
-      return hrs > 0 ? `${pad(hrs)}:${pad(min)}:${pad(sec)}` : `${pad(min)}:${pad(sec)}`;
-    }
-
-    function updateLastOnlineText(status) {
-      const lastOnlineEl = document.getElementById("last-online-text");
-      
-      if (status !== "offline") {
-        localStorage.setItem("last_online_time", Date.now());
-        lastOnlineEl.innerText = "Aktivní právě teď";
-        return;
-      }
-
-      const savedTime = localStorage.getItem("last_online_time");
-      if (!savedTime) {
-        lastOnlineEl.innerText = "Naposledy online: Nedávno";
-        return;
-      }
-
-      const diffMs = Date.now() - parseInt(savedTime);
-      const diffMins = Math.floor(diffMs / (1000 * 60));
-      const diffHours = Math.floor(diffMins / 60);
-
-      if (diffMins < 2) {
-        lastOnlineEl.innerText = "Naposledy online: Před chvílí";
-      } else if (diffMins < 60) {
-        lastOnlineEl.innerText = `Naposledy online: před ${diffMins} min`;
-      } else if (diffHours < 24) {
-        lastOnlineEl.innerText = `Naposledy online: před ${diffHours} hod`;
-      } else {
-        const d = new Date(parseInt(savedTime));
-        lastOnlineEl.innerText = `Naposledy online: ${d.toLocaleDateString('cs-CZ')} v ${d.toLocaleTimeString('cs-CZ', {hour: '2-digit', minute:'2-digit'})}`;
-      }
-    }
-
-    function updateLanyardData(lanyardData) {
-      if (!lanyardData) return;
-
-      clearInterval(spotifyInterval);
-      clearInterval(gameInterval);
-
-      const { discord_status, listening_to_spotify, spotify, activities } = lanyardData;
-
-      updateLastOnlineText(discord_status);
-
-      const discordBadge = document.getElementById("discord-badge");
-      const statusMapUpper = { dnd: "DND", online: "ONLINE", idle: "IDLE", offline: "OFFLINE" };
-      discordBadge.innerText = statusMapUpper[discord_status] || "OFFLINE";
-      discordBadge.className = "badge badge-" + (discord_status || "offline");
-
-      const actBox = document.getElementById("activity-box");
-      const gameItem = document.getElementById("game-item");
-      const gameCover = document.getElementById("game-cover");
-      const gameTitle = document.getElementById("game-title");
-      const gameSub = document.getElementById("game-subtitle");
-
-      const spotifyItem = document.getElementById("spotify-item");
-      const spotifyCover = document.getElementById("spotify-cover");
-      const spotifyTitle = document.getElementById("spotify-title");
-      const spotifySub = document.getElementById("spotify-subtitle");
-      const spotifyListenBtn = document.getElementById("spotify-listen-btn");
-      const progFill = document.getElementById("progress-fill");
-      const timeCur = document.getElementById("time-current");
-      const timeTot = document.getElementById("time-total");
-
-      let hasGame = false;
-      let hasSpotify = false;
-
-      // Hra
-      if (activities && activities.length > 0) {
-        const game = activities.find(a => a.type === 0);
-        if (game) {
-          hasGame = true;
-          gameItem.style.display = "flex";
-          
-          if (game.assets && game.assets.large_image) {
-            if (game.assets.large_image.startsWith("mp:external")) {
-              gameCover.src = "https://media.discordapp.net/" + game.assets.large_image.replace("mp:", "");
-            } else {
-              gameCover.src = `https://cdn.discordapp.com/app-assets/${game.application_id}/${game.assets.large_image}.png`;
-            }
-          } else {
-            gameCover.src = "https://cdn.discordapp.com/embed/avatars/0.png";
-          }
-
-          gameTitle.innerText = "Hraje " + game.name;
-
-          if (game.timestamps && game.timestamps.start) {
-            const updateGameTime = () => {
-              const durationStr = formatGameTime(game.timestamps.start);
-              gameSub.innerText = (game.details ? game.details + " • " : "") + durationStr;
-            };
-            updateGameTime();
-            gameInterval = setInterval(updateGameTime, 1000);
-          } else {
-            gameSub.innerText = game.details || game.state || "Právě ve hře";
-          }
-        } else {
-          gameItem.style.display = "none";
-        }
-      } else {
-        gameItem.style.display = "none";
-      }
-
-      // Spotify
-      if (listening_to_spotify && spotify) {
-        hasSpotify = true;
-        spotifyItem.style.display = "flex";
-        spotifyCover.src = spotify.album_art_url;
-        spotifyTitle.innerText = spotify.song;
-        spotifySub.innerText = "od " + spotify.artist;
-
-        if (spotify.track_id) {
-          spotifyListenBtn.href = `https://open.spotify.com/track/${spotify.track_id}`;
-          spotifyListenBtn.style.display = "inline-flex";
-        } else {
-          spotifyListenBtn.style.display = "none";
-        }
-
-        const updateSpotify = () => {
-          const now = Date.now();
-          const start = spotify.timestamps.start;
-          const end = spotify.timestamps.end;
-          const total = end - start;
-          const current = Math.min(now - start, total);
-          const pct = Math.min(Math.max((current / total) * 100, 0), 100);
-
-          progFill.style.width = pct + "%";
-          timeCur.innerText = formatTime(current);
-          timeTot.innerText = formatTime(total);
-        };
-
-        updateSpotify();
-        spotifyInterval = setInterval(updateSpotify, 1000);
-      } else {
-        spotifyItem.style.display = "none";
-      }
-
-      if (hasGame || hasSpotify) {
-        actBox.style.display = "flex";
-      } else {
-        actBox.style.display = "none";
-      }
-    }
-
-    function connectLanyardWS() {
-      const ws = new WebSocket("wss://api.lanyard.rest/socket");
-
-      ws.onopen = () => {
-        ws.send(JSON.stringify({
-          op: 2,
-          d: { subscribe_to_id: DISCORD_ID }
-        }));
-      };
-
-      ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        if (data.t === "INIT_STATE" || data.t === "PRESENCE_UPDATE") {
-          updateLanyardData(data.d);
-        }
-      };
-
-      ws.onclose = () => {
-        setTimeout(connectLanyardWS, 5000);
-      };
-    }
-
-    connectLanyardWS();
   </script>
 </body>
 </html>

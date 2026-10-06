@@ -38,8 +38,8 @@
       position: relative;
       z-index: 2;
       width: 90%;
-      max-width: 420px;
-      padding: 35px 22px;
+      max-width: 900px;
+      padding: 35px 26px;
       background: rgba(20, 16, 38, 0.55);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -55,6 +55,39 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       margin-bottom: 24px;
+    }
+
+    /* Layout: odkazy vlevo, Discord widget vpravo */
+    .main-layout {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .left-column {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .widget-column {
+      flex: 0 0 350px;
+    }
+
+    .discord-widget {
+      width: 100%;
+      height: 500px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    @media (max-width: 780px) {
+      .main-layout {
+        flex-direction: column;
+      }
+      .widget-column {
+        flex: none;
+        width: 100%;
+      }
     }
 
     .activity-box {
@@ -250,15 +283,6 @@
     .spotify:hover { border-color: #9b51e0; color: #9b51e0; }
     .steam:hover { border-color: #66c0f4; color: #66c0f4; }
     .discord-btn:hover { border-color: #5865f2; color: #5865f2; }
-    
-    .metin2 {
-      background: linear-gradient(135deg, rgba(114, 137, 218, 0.2), rgba(155, 89, 182, 0.2));
-      border: 1px solid rgba(114, 137, 218, 0.4);
-    }
-    .metin2:hover {
-      border-color: #7289da;
-      box-shadow: 0 0 15px rgba(114, 137, 218, 0.4);
-    }
 
     /* Split dlaždice pro Instagramy */
     .split-btn-container {
@@ -323,87 +347,95 @@
   <div class="container">
     <h1>Filip Bartek</h1>
 
-    <div class="last-online-info">
-      <i class="fa-regular fa-clock"></i>
-      <span id="last-online-text">Načítám stav...</span>
-    </div>
+    <div class="main-layout">
 
-    <div id="activity-box" class="activity-box">
-      <!-- Hra -->
-      <div id="game-item" class="activity-item" style="display: none;">
-        <div class="activity-header">
-          <img id="game-cover" class="activity-cover" src="" alt="Game Icon">
-          <div class="activity-details">
-            <span id="game-title" class="activity-title">Hraje ...</span>
-            <span id="game-subtitle" class="activity-subtitle">...</span>
+      <!-- LEVÝ SLOUPEC: stav + odkazy -->
+      <div class="left-column">
+
+        <div class="last-online-info">
+          <i class="fa-regular fa-clock"></i>
+          <span id="last-online-text">Načítám stav...</span>
+        </div>
+
+        <div id="activity-box" class="activity-box">
+          <!-- Hra -->
+          <div id="game-item" class="activity-item" style="display: none;">
+            <div class="activity-header">
+              <img id="game-cover" class="activity-cover" src="" alt="Game Icon">
+              <div class="activity-details">
+                <span id="game-title" class="activity-title">Hraje ...</span>
+                <span id="game-subtitle" class="activity-subtitle">...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Spotify s tlačítkem Přehrát -->
+          <div id="spotify-item" class="activity-item" style="display: none;">
+            <div class="activity-header">
+              <img id="spotify-cover" class="activity-cover" src="" alt="Album Cover">
+              <div class="activity-details">
+                <span id="spotify-title" class="activity-title">Song</span>
+                <span id="spotify-subtitle" class="activity-subtitle">Artist</span>
+              </div>
+              <a id="spotify-listen-btn" href="#" target="_blank" class="listen-btn">
+                <i class="fa-solid fa-play"></i> Pustit
+              </a>
+            </div>
+            <div class="progress-container">
+              <div class="progress-bar-bg">
+                <div id="progress-fill" class="progress-bar-fill"></div>
+              </div>
+              <div class="progress-time">
+                <span id="time-current">0:00</span>
+                <span id="time-total">0:00</span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Spotify s tlačítkem Přehrát -->
-      <div id="spotify-item" class="activity-item" style="display: none;">
-        <div class="activity-header">
-          <img id="spotify-cover" class="activity-cover" src="" alt="Album Cover">
-          <div class="activity-details">
-            <span id="spotify-title" class="activity-title">Song</span>
-            <span id="spotify-subtitle" class="activity-subtitle">Artist</span>
-          </div>
-          <a id="spotify-listen-btn" href="#" target="_blank" class="listen-btn">
-            <i class="fa-solid fa-play"></i> Pustit
+        <div class="links-container">
+          <a href="https://instagram.com/bafi889" target="_blank" class="btn instagram">
+            <i class="fa-brands fa-instagram"></i>
+            <span>Instagram</span>
+            <span class="badge">@bafi889</span>
           </a>
-        </div>
-        <div class="progress-container">
-          <div class="progress-bar-bg">
-            <div id="progress-fill" class="progress-bar-fill"></div>
+
+          <a href="https://open.spotify.com/search/BafiTV" target="_blank" class="btn spotify">
+            <i class="fa-brands fa-spotify"></i>
+            <span>Spotify Profil</span>
+          </a>
+
+          <div class="btn discord-btn" onclick="copyDiscord()">
+            <i class="fa-brands fa-discord"></i>
+            <span id="discord-text">Discord: bafi_tv88</span>
+            <span id="discord-badge" class="badge">OFFLINE</span>
           </div>
-          <div class="progress-time">
-            <span id="time-current">0:00</span>
-            <span id="time-total">0:00</span>
+
+          <a href="https://steamcommunity.com/id/Bafi_TV/" target="_blank" class="btn steam">
+            <i class="fa-brands fa-steam"></i>
+            <span>Steam Profil</span>
+          </a>
+
+          <!-- Split dlaždice pro Instagramy -->
+          <div class="split-btn-container">
+            <a href="https://www.instagram.com/n1ggram/" target="_blank" class="btn-split">
+              <i class="fa-brands fa-instagram"></i>
+              <span>Můj Secret</span>
+            </a>
+            <a href="https://www.instagram.com/bafi_a_dave_irl/" target="_blank" class="btn-split">
+              <i class="fa-brands fa-instagram"></i>
+              <span>Duo IRL</span>
+            </a>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div class="links-container">
-      <a href="https://instagram.com/bafi889" target="_blank" class="btn instagram">
-        <i class="fa-brands fa-instagram"></i>
-        <span>Instagram</span>
-        <span class="badge">@bafi889</span>
-      </a>
-
-      <a href="https://open.spotify.com/search/BafiTV" target="_blank" class="btn spotify">
-        <i class="fa-brands fa-spotify"></i>
-        <span>Spotify Profil</span>
-      </a>
-
-      <div class="btn discord-btn" onclick="copyDiscord()">
-        <i class="fa-brands fa-discord"></i>
-        <span id="discord-text">Discord: bafi_tv88</span>
-        <span id="discord-badge" class="badge">OFFLINE</span>
       </div>
 
-      <a href="https://steamcommunity.com/id/Bafi_TV/" target="_blank" class="btn steam">
-        <i class="fa-brands fa-steam"></i>
-        <span>Steam Profil</span>
-      </a>
-
-      <a href="https://discord.gg/m82ekXdGMs" target="_blank" class="btn metin2">
-        <i class="fa-brands fa-discord"></i>
-        <span>Metin2 Server</span>
-        <span class="badge badge-admin">Admin</span>
-      </a>
-
-      <!-- Split dlaždice pod Metin2 serverem -->
-      <div class="split-btn-container">
-        <a href="https://www.instagram.com/n1ggram/" target="_blank" class="btn-split">
-          <i class="fa-brands fa-instagram"></i>
-          <span>Můj Secret</span>
-        </a>
-        <a href="https://www.instagram.com/bafi_a_dave_irl/" target="_blank" class="btn-split">
-          <i class="fa-brands fa-instagram"></i>
-          <span>Duo IRL</span>
-        </a>
+      <!-- PRAVÝ SLOUPEC: Discord widget -->
+      <div class="widget-column">
+        <iframe src="https://discord.com/widget?id=1475565636720660491&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" class="discord-widget"></iframe>
       </div>
+
     </div>
 
     <footer>

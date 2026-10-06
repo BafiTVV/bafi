@@ -3,44 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bafi | Linky a Profil</title>
-
-  <!-- Font Awesome Icons -->
+  <title>Filip Bartek | Linky</title>
+  <!-- FontAwesome pro ikonky -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <style>
-    /* ==========================================
-       1. GLOBAL RESET & BASE STYLES
-       ========================================== */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      background-color: #000000;
-      color: #ffffff;
-      overflow-x: hidden;
-      position: relative;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body {
+      background: #090713;
+      color: #fff;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
     }
 
-    /* ==========================================
-       2. CANVAS BACKGROUND
-       ========================================== */
     #bg-canvas {
       position: fixed;
       top: 0;
@@ -48,553 +32,439 @@
       width: 100%;
       height: 100%;
       z-index: 1;
-      pointer-events: none;
     }
 
-    /* ==========================================
-       3. MAIN WRAPPER (LAYOUT)
-       ========================================== */
-    .wrapper {
+    .container {
       position: relative;
       z-index: 2;
-      display: flex;
-      flex-direction: row;
-      gap: 28px;
-      align-items: center;
-      justify-content: center;
-      max-width: 900px;
-      width: 100%;
-      margin: 0 auto;
-    }
-
-    /* ==========================================
-       4. CONTAINER CARD (LEFT SIDE)
-       ========================================== */
-    .container {
-      flex: 1;
+      width: 90%;
       max-width: 420px;
-      width: 100%;
-      padding: 40px 28px;
-      background: rgba(12, 12, 12, 0.7);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
+      padding: 35px 22px;
+      background: rgba(20, 16, 38, 0.55);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 30px;
-      box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.8),
-        inset 0 0 15px rgba(255, 255, 255, 0.03);
+      border-radius: 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.03);
       text-align: center;
-      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-      transition: transform 0.3s ease, border-color 0.3s ease;
+      margin: 20px 0;
     }
 
-    .container:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* ==========================================
-       5. HEADER & TITLE STYLES
-       ========================================== */
     h1 {
-      font-size: 2.4rem;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      margin-bottom: 22px;
-      background: linear-gradient(135deg, #ffffff 0%, #a1a1a1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
     }
 
-    /* ==========================================
-       6. AUDIO CONTROL BUTTON
-       ========================================== */
-    .music-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #ffffff;
-      padding: 10px 20px;
-      border-radius: 25px;
+    .activity-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+      color: #b9bbbe;
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .activity-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .activity-item + .activity-item {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 10px;
+    }
+
+    .activity-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .activity-cover {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      background: #181528;
+      flex-shrink: 0;
+    }
+
+    .activity-details {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .activity-title {
+      font-weight: 700;
+      color: #fff;
       font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .activity-subtitle {
+      font-size: 0.78rem;
+      color: #a3a6aa;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+
+    .listen-btn {
+      margin-left: auto;
+      background: linear-gradient(135deg, #8a5cf6, #7289da);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 700;
       display: inline-flex;
       align-items: center;
+      gap: 5px;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(138, 92, 246, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .listen-btn:hover {
+      background: linear-gradient(135deg, #9b51e0, #8a5cf6);
+      transform: scale(1.06);
+      box-shadow: 0 0 18px rgba(155, 81, 224, 0.8);
+      color: #fff;
+    }
+
+    .progress-container {
+      width: 100%;
+      margin-top: 2px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #7289da, #9b51e0);
+      border-radius: 3px;
+      box-shadow: 0 0 10px rgba(155, 81, 224, 0.8);
+      transition: width 0.3s linear;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-time {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: #a3a6aa;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .last-online-info {
+      font-size: 0.75rem;
+      color: #8e9297;
+      margin-top: -12px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 26px;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      outline: none;
-      user-select: none;
+      gap: 6px;
     }
 
-    .music-btn:hover {
-      background: rgba(255, 255, 255, 0.18);
-      transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.3);
-    }
-
-    .music-btn:active {
-      transform: scale(0.98);
-    }
-
-    .music-btn i {
-      font-size: 0.95rem;
-    }
-
-    /* ==========================================
-       7. LINKS CONTAINER & BUTTONS
-       ========================================== */
     .links-container {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      width: 100%;
+      gap: 12px;
     }
 
     .btn {
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      padding: 16px 20px;
-      border-radius: 18px;
+      padding: 14px 18px;
+      border-radius: 14px;
       text-decoration: none;
-      color: #ffffff;
+      color: #fff;
       font-weight: 600;
-      font-size: 1rem;
-      background: rgba(255, 255, 255, 0.04);
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.3s ease;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.08),
-        transparent
-      );
-      transition: left 0.6s ease;
-    }
-
-    .btn:hover::before {
-      left: 100%;
     }
 
     .btn i {
-      font-size: 1.5rem;
-      width: 32px;
+      font-size: 1.3rem;
+      width: 28px;
+      margin-right: 10px;
       text-align: center;
-      transition: transform 0.3s ease, color 0.3s ease;
     }
 
-    .btn:not(.btn-split) i {
-      margin-right: 14px;
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.14);
     }
 
     .badge {
       margin-left: auto;
-      font-size: 0.75rem;
-      background: rgba(255, 255, 255, 0.1);
-      color: #d1d1d1;
-      padding: 4px 10px;
-      border-radius: 12px;
+      font-size: 0.7rem;
+      background: rgba(255, 255, 255, 0.12);
+      color: #dcddde;
+      padding: 3px 8px;
+      border-radius: 8px;
+      text-transform: uppercase;
       letter-spacing: 0.5px;
       font-weight: 600;
-      transition: background 0.3s ease, color 0.3s ease;
     }
 
-    /* ==========================================
-       8. SPLIT BUTTONS ROW (2 COLUMNS)
-       ========================================== */
-    .split-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      width: 100%;
+    .badge-admin { background: #7289da; color: #fff; }
+    .badge-dnd { background: #e74c3c; color: #fff; }
+    .badge-online { background: #2ecc71; color: #fff; }
+    .badge-idle { background: #f1c40f; color: #000; }
+    .badge-offline { background: rgba(255, 255, 255, 0.12); color: #dcddde; }
+
+    .instagram:hover { border-color: #e1306c; color: #e1306c; }
+    .spotify:hover { border-color: #9b51e0; color: #9b51e0; }
+    .steam:hover { border-color: #66c0f4; color: #66c0f4; }
+    .discord-btn:hover { border-color: #5865f2; color: #5865f2; }
+    
+    .metin2 {
+      background: linear-gradient(135deg, rgba(114, 137, 218, 0.2), rgba(155, 89, 182, 0.2));
+      border: 1px solid rgba(114, 137, 218, 0.4);
+    }
+    .metin2:hover {
+      border-color: #7289da;
+      box-shadow: 0 0 15px rgba(114, 137, 218, 0.4);
+    }
+
+    /* Split dlaždice pro Instagramy */
+    .split-btn-container {
+      display: flex;
+      gap: 10px;
     }
 
     .btn-split {
-      flex-direction: column;
+      flex: 1;
+      display: flex;
+      align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 16px 12px;
-      gap: 6px;
+      padding: 12px 10px;
+      border-radius: 14px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.85rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s ease;
     }
 
     .btn-split i {
-      margin-right: 0;
-      margin-bottom: 2px;
+      font-size: 1.1rem;
+      margin-right: 6px;
     }
 
-    .btn-split span.title {
-      font-size: 0.88rem;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    .btn-split span.sub {
-      font-size: 0.72rem;
-      color: rgba(255, 255, 255, 0.6);
-      font-weight: 500;
-    }
-
-    /* ==========================================
-       9. HOVER EFFECTS PER SOCIAL NETWORK
-       ========================================== */
-
-    /* Instagram Hover */
-    .instagram:hover {
-      border-color: rgba(225, 48, 108, 0.8);
-      box-shadow: 0 0 22px rgba(225, 48, 108, 0.4);
-      transform: translateY(-4px) scale(1.02);
-      background: linear-gradient(135deg, rgba(225, 48, 108, 0.15), rgba(253, 29, 29, 0.1));
-    }
-
-    .instagram:hover i {
+    .btn-split:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.14);
+      border-color: #e1306c;
       color: #e1306c;
-      transform: scale(1.2) rotate(-5deg);
     }
 
-    .instagram:hover .badge {
-      background: rgba(225, 48, 108, 0.3);
-      color: #ffffff;
-    }
-
-    /* TikTok Hover */
-    .tiktok:hover {
-      border-color: rgba(254, 44, 85, 0.8);
-      box-shadow: 0 0 22px rgba(254, 44, 85, 0.4), -3px 0 10px rgba(37, 244, 238, 0.3);
-      transform: translateY(-4px) scale(1.02);
-      background: linear-gradient(135deg, rgba(254, 44, 85, 0.15), rgba(37, 244, 238, 0.1));
-    }
-
-    .tiktok:hover i {
-      color: #fe2c55;
-      transform: scale(1.2) rotate(5deg);
-      text-shadow: -2px 0 #25f4ee, 2px 0 #fe2c55;
-    }
-
-    .tiktok:hover .badge {
-      background: rgba(254, 44, 85, 0.3);
-      color: #ffffff;
-    }
-
-    /* ==========================================
-       10. DISCORD WIDGET CONTAINER (RIGHT SIDE)
-       ========================================== */
-    .widget-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(12, 12, 12, 0.7);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 30px;
-      padding: 12px;
-      box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.8),
-        inset 0 0 15px rgba(255, 255, 255, 0.03);
-      animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1);
-      transition: transform 0.3s ease, border-color 0.3s ease;
-    }
-
-    .widget-container:hover {
-      border-color: rgba(88, 101, 242, 0.4);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(88, 101, 242, 0.2);
-    }
-
-    .widget-container iframe {
-      border-radius: 20px;
-      display: block;
-    }
-
-    /* ==========================================
-       11. FOOTER STYLES
-       ========================================== */
     footer {
-      margin-top: 32px;
+      margin-top: 22px;
       font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.4);
-      letter-spacing: 0.5px;
+      color: #8e9297;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
-    footer span {
-      transition: color 0.3s ease;
-    }
-
-    footer span:hover {
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    /* ==========================================
-       12. RESPONSIVE DESIGN (MOBILE & TABLET)
-       ========================================== */
-    @media (max-width: 850px) {
-      body {
-        padding: 30px 15px;
-        align-items: flex-start;
-      }
-
-      .wrapper {
-        flex-direction: column;
-        gap: 20px;
-      }
-
-      .container {
-        max-width: 100%;
-        padding: 32px 20px;
-      }
-
-      .widget-container {
-        width: 100%;
-      }
-
-      .widget-container iframe {
-        width: 100% !important;
-        max-width: 350px;
-      }
-    }
-
-    @media (max-width: 400px) {
-      .split-row {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
+    .dnd-note {
+      font-size: 0.73rem;
+      color: #a0a5ac;
+      background: rgba(231, 76, 60, 0.12);
+      border: 1px solid rgba(231, 76, 60, 0.25);
+      border-radius: 10px;
+      padding: 6px 10px;
+      display: inline-block;
+      margin-top: 4px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Background Particle Canvas -->
   <canvas id="bg-canvas"></canvas>
 
-  <!-- Audio Background Player -->
-  <audio id="bg-music" loop preload="auto">
-    <source src="https://ti.fo/f/Ls69fXJKkT1-k-CykTc5Z" type="audio/mpeg">
-  </audio>
+  <div class="container">
+    <h1>Filip Bartek</h1>
 
-  <!-- Main Content Wrapper -->
-  <div class="wrapper">
+    <div class="last-online-info">
+      <i class="fa-regular fa-clock"></i>
+      <span id="last-online-text">Načítám stav...</span>
+    </div>
 
-    <!-- Left Box: Links Container -->
-    <div class="container">
-      <h1>Bafi</h1>
-
-      <!-- Music Toggle Button -->
-      <button class="music-btn" onclick="toggleMusic()" aria-label="Pustit nebo pozastavit hudbu">
-        <i id="music-icon" class="fa-solid fa-play"></i>
-        <span id="music-text">Pustit hudbu</span>
-      </button>
-
-      <!-- Social Links List -->
-      <div class="links-container">
-        
-        <!-- Main Instagram Link -->
-        <a href="https://instagram.com/te.rk._a" target="_blank" rel="noopener noreferrer" class="btn instagram">
-          <i class="fa-brands fa-instagram"></i>
-          <span>Instagram</span>
-          <span class="badge">@te.rk._a</span>
-        </a>
-
-        <!-- Main TikTok Link -->
-        <a href="https://www.tiktok.com/@terkaaxd" target="_blank" rel="noopener noreferrer" class="btn tiktok">
-          <i class="fa-brands fa-tiktok"></i>
-          <span>TikTok</span>
-          <span class="badge">@terkaaxd</span>
-        </a>
-
-        <!-- Split Grid Row for Extra Accounts -->
-        <div class="split-row">
-          
-          <!-- Secret Instagram -->
-          <a href="https://www.instagram.com/n1ggram/" target="_blank" rel="noopener noreferrer" class="btn btn-split instagram">
-            <i class="fa-brands fa-instagram"></i>
-            <span class="title">Můj Secret</span>
-            <span class="sub">@n1ggram</span>
-          </a>
-
-          <!-- Duo Instagram -->
-          <a href="https://www.instagram.com/bafi_a_dave_irl/" target="_blank" rel="noopener noreferrer" class="btn btn-split instagram">
-            <i class="fa-brands fa-instagram"></i>
-            <span class="title">Účet Dua</span>
-            <span class="sub">@bafi_a_dave_irl</span>
-          </a>
-
+    <div id="activity-box" class="activity-box">
+      <!-- Hra -->
+      <div id="game-item" class="activity-item" style="display: none;">
+        <div class="activity-header">
+          <img id="game-cover" class="activity-cover" src="" alt="Game Icon">
+          <div class="activity-details">
+            <span id="game-title" class="activity-title">Hraje ...</span>
+            <span id="game-subtitle" class="activity-subtitle">...</span>
+          </div>
         </div>
-
       </div>
 
-      <!-- Footer Section -->
-      <footer>
-        <span>© 2026 • Bafi</span>
-      </footer>
+      <!-- Spotify s tlačítkem Přehrát -->
+      <div id="spotify-item" class="activity-item" style="display: none;">
+        <div class="activity-header">
+          <img id="spotify-cover" class="activity-cover" src="" alt="Album Cover">
+          <div class="activity-details">
+            <span id="spotify-title" class="activity-title">Song</span>
+            <span id="spotify-subtitle" class="activity-subtitle">Artist</span>
+          </div>
+          <a id="spotify-listen-btn" href="#" target="_blank" class="listen-btn">
+            <i class="fa-solid fa-play"></i> Pustit
+          </a>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar-bg">
+            <div id="progress-fill" class="progress-bar-fill"></div>
+          </div>
+          <div class="progress-time">
+            <span id="time-current">0:00</span>
+            <span id="time-total">0:00</span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Right Box: Discord Live Widget -->
-    <div class="widget-container">
-      <iframe 
-        src="https://discord.com/widget?id=1475565636720660491&theme=dark" 
-        width="350" 
-        height="500" 
-        allowtransparency="true" 
-        frameborder="0" 
-        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-        title="Discord Widget">
-      </iframe>
+    <div class="links-container">
+      <a href="https://instagram.com/bafi889" target="_blank" class="btn instagram">
+        <i class="fa-brands fa-instagram"></i>
+        <span>Instagram</span>
+        <span class="badge">@bafi889</span>
+      </a>
+
+      <a href="https://open.spotify.com/search/BafiTV" target="_blank" class="btn spotify">
+        <i class="fa-brands fa-spotify"></i>
+        <span>Spotify Profil</span>
+      </a>
+
+      <div class="btn discord-btn" onclick="copyDiscord()">
+        <i class="fa-brands fa-discord"></i>
+        <span id="discord-text">Discord: bafi_tv88</span>
+        <span id="discord-badge" class="badge">OFFLINE</span>
+      </div>
+
+      <a href="https://steamcommunity.com/id/Bafi_TV/" target="_blank" class="btn steam">
+        <i class="fa-brands fa-steam"></i>
+        <span>Steam Profil</span>
+      </a>
+
+      <a href="https://discord.gg/m82ekXdGMs" target="_blank" class="btn metin2">
+        <i class="fa-brands fa-discord"></i>
+        <span>Metin2 Server</span>
+        <span class="badge badge-admin">Admin</span>
+      </a>
+
+      <!-- Split dlaždice pod Metin2 serverem -->
+      <div class="split-btn-container">
+        <a href="https://www.instagram.com/n1ggram/" target="_blank" class="btn-split">
+          <i class="fa-brands fa-instagram"></i>
+          <span>Můj Secret</span>
+        </a>
+        <a href="https://www.instagram.com/bafi_a_dave_irl/" target="_blank" class="btn-split">
+          <i class="fa-brands fa-instagram"></i>
+          <span>Duo IRL</span>
+        </a>
+      </div>
     </div>
 
+    <footer>
+      <div class="dnd-note">
+        <i class="fa-solid fa-moon"></i> DND stav mám jen kvůli Discordu, ale i tak jsem stále na příjmu!
+      </div>
+      <span>© 2026 • Všechna práva vyhrazena</span>
+    </footer>
   </div>
 
-  <!-- ==========================================
-     13. JAVASCRIPT CONTROLLERS
-     ========================================== -->
   <script>
-    /* ------------------------------------------
-       AUDIO PLAYER CONTROLLER
-       ------------------------------------------ */
-    const music = document.getElementById('bg-music');
-    const musicIcon = document.getElementById('music-icon');
-    const musicText = document.getElementById('music-text');
-
-    // Hlasitost hudby nastavená na 20 %
-    music.volume = 0.2;
-
-    function startMusic() {
-      const playPromise = music.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          musicIcon.className = "fa-solid fa-pause";
-          musicText.innerText = "Pozastavit hudbu";
-        }).catch(() => {
-          musicIcon.className = "fa-solid fa-play";
-          musicText.innerText = "Pustit hudbu";
-        });
-      }
-    }
-
-    // Automatický start po načtení stránky
-    window.addEventListener('load', () => {
-      startMusic();
-    });
-
-    // Spuštění při jakémkoliv prvním kliknutí (překonání autoplay restrikcí prohlížečů)
-    const enableAudioOnInteraction = () => {
-      if (music.paused) {
-        startMusic();
-      }
-      document.removeEventListener('click', enableAudioOnInteraction);
-      document.removeEventListener('touchstart', enableAudioOnInteraction);
-    };
-
-    document.addEventListener('click', enableAudioOnInteraction);
-    document.addEventListener('touchstart', enableAudioOnInteraction);
-
-    function toggleMusic() {
-      if (music.paused) {
-        music.play();
-        musicIcon.className = "fa-solid fa-pause";
-        musicText.innerText = "Pozastavit hudbu";
-      } else {
-        music.pause();
-        musicIcon.className = "fa-solid fa-play";
-        musicText.innerText = "Pustit hudbu";
-      }
-    }
-
-    /* ------------------------------------------
-       PARTICLE CANVAS ANIMATION
-       ------------------------------------------ */
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
-    const particleCount = 75;
-    const maxDistance = 115;
+    const particleCount = 65;
+    const maxDistance = 120;
+    let mouse = { x: null, y: null, radius: 150 };
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
+    window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }
+    });
 
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
     class Particle {
-      constructor() {
-        this.reset();
-      }
-
+      constructor() { this.reset(); }
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.radius = Math.random() * 2 + 0.5;
-        this.vx = (Math.random() - 0.5) * 0.6;
-        this.vy = (Math.random() - 0.5) * 0.6;
+        this.radius = Math.random() * 2 + 1;
+        this.vx = (Math.random() - 0.5) * 0.8;
+        this.vy = (Math.random() - 0.5) * 0.8;
       }
-
       update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-          this.reset();
-        }
+        this.x += this.vx; this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
       }
-
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+        ctx.fillStyle = 'rgba(155, 120, 255, 0.7)';
         ctx.fill();
       }
     }
 
-    // Inicializace částic
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
-    }
+    for (let i = 0; i < particleCount; i++) particles.push(new Particle());
 
-    // Animační smyčka
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
       for (let a = 0; a < particles.length; a++) {
-        particles[a].update();
-        particles[a].draw();
-
+        particles[a].update(); particles[a].draw();
         for (let b = a + 1; b < particles.length; b++) {
           let dx = particles[a].x - particles[b].x;
           let dy = particles[a].y - particles[b].y;
           let dist = Math.sqrt(dx * dx + dy * dy);
-
           if (dist < maxDistance) {
             let opacity = 1 - (dist / maxDistance);
-            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.15})`;
+            ctx.strokeStyle = `rgba(138, 92, 246, ${opacity * 0.35})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(particles[a].x, particles[a].y);
@@ -603,11 +473,203 @@
           }
         }
       }
-
       requestAnimationFrame(animate);
     }
-
     animate();
+
+    function copyDiscord() {
+      navigator.clipboard.writeText("bafi_tv88");
+      const el = document.getElementById("discord-text");
+      const originalText = el.innerText;
+      el.innerText = "Zkopírováno!";
+      setTimeout(() => { el.innerText = originalText; }, 2000);
+    }
+
+    const DISCORD_ID = "1032971864269668425";
+    let spotifyInterval = null;
+    let gameInterval = null;
+
+    function formatTime(ms) {
+      const totalSec = Math.floor(ms / 1000);
+      const min = Math.floor(totalSec / 60);
+      const sec = Math.floor(totalSec % 60);
+      return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+    }
+
+    function formatGameTime(startMs) {
+      const elapsedMs = Date.now() - startMs;
+      const totalSec = Math.floor(elapsedMs / 1000);
+      const hrs = Math.floor(totalSec / 3600);
+      const min = Math.floor((totalSec % 3600) / 60);
+      const sec = Math.floor(totalSec % 60);
+      const pad = (n) => n < 10 ? '0' + n : n;
+      return hrs > 0 ? `${pad(hrs)}:${pad(min)}:${pad(sec)}` : `${pad(min)}:${pad(sec)}`;
+    }
+
+    function updateLastOnlineText(status) {
+      const lastOnlineEl = document.getElementById("last-online-text");
+      
+      if (status !== "offline") {
+        localStorage.setItem("last_online_time", Date.now());
+        lastOnlineEl.innerText = "Aktivní právě teď";
+        return;
+      }
+
+      const savedTime = localStorage.getItem("last_online_time");
+      if (!savedTime) {
+        lastOnlineEl.innerText = "Naposledy online: Nedávno";
+        return;
+      }
+
+      const diffMs = Date.now() - parseInt(savedTime);
+      const diffMins = Math.floor(diffMs / (1000 * 60));
+      const diffHours = Math.floor(diffMins / 60);
+
+      if (diffMins < 2) {
+        lastOnlineEl.innerText = "Naposledy online: Před chvílí";
+      } else if (diffMins < 60) {
+        lastOnlineEl.innerText = `Naposledy online: před ${diffMins} min`;
+      } else if (diffHours < 24) {
+        lastOnlineEl.innerText = `Naposledy online: před ${diffHours} hod`;
+      } else {
+        const d = new Date(parseInt(savedTime));
+        lastOnlineEl.innerText = `Naposledy online: ${d.toLocaleDateString('cs-CZ')} v ${d.toLocaleTimeString('cs-CZ', {hour: '2-digit', minute:'2-digit'})}`;
+      }
+    }
+
+    function updateLanyardData(lanyardData) {
+      if (!lanyardData) return;
+
+      clearInterval(spotifyInterval);
+      clearInterval(gameInterval);
+
+      const { discord_status, listening_to_spotify, spotify, activities } = lanyardData;
+
+      updateLastOnlineText(discord_status);
+
+      const discordBadge = document.getElementById("discord-badge");
+      const statusMapUpper = { dnd: "DND", online: "ONLINE", idle: "IDLE", offline: "OFFLINE" };
+      discordBadge.innerText = statusMapUpper[discord_status] || "OFFLINE";
+      discordBadge.className = "badge badge-" + (discord_status || "offline");
+
+      const actBox = document.getElementById("activity-box");
+      const gameItem = document.getElementById("game-item");
+      const gameCover = document.getElementById("game-cover");
+      const gameTitle = document.getElementById("game-title");
+      const gameSub = document.getElementById("game-subtitle");
+
+      const spotifyItem = document.getElementById("spotify-item");
+      const spotifyCover = document.getElementById("spotify-cover");
+      const spotifyTitle = document.getElementById("spotify-title");
+      const spotifySub = document.getElementById("spotify-subtitle");
+      const spotifyListenBtn = document.getElementById("spotify-listen-btn");
+      const progFill = document.getElementById("progress-fill");
+      const timeCur = document.getElementById("time-current");
+      const timeTot = document.getElementById("time-total");
+
+      let hasGame = false;
+      let hasSpotify = false;
+
+      // Hra
+      if (activities && activities.length > 0) {
+        const game = activities.find(a => a.type === 0);
+        if (game) {
+          hasGame = true;
+          gameItem.style.display = "flex";
+          
+          if (game.assets && game.assets.large_image) {
+            if (game.assets.large_image.startsWith("mp:external")) {
+              gameCover.src = "https://media.discordapp.net/" + game.assets.large_image.replace("mp:", "");
+            } else {
+              gameCover.src = `https://cdn.discordapp.com/app-assets/${game.application_id}/${game.assets.large_image}.png`;
+            }
+          } else {
+            gameCover.src = "https://cdn.discordapp.com/embed/avatars/0.png";
+          }
+
+          gameTitle.innerText = "Hraje " + game.name;
+
+          if (game.timestamps && game.timestamps.start) {
+            const updateGameTime = () => {
+              const durationStr = formatGameTime(game.timestamps.start);
+              gameSub.innerText = (game.details ? game.details + " • " : "") + durationStr;
+            };
+            updateGameTime();
+            gameInterval = setInterval(updateGameTime, 1000);
+          } else {
+            gameSub.innerText = game.details || game.state || "Právě ve hře";
+          }
+        } else {
+          gameItem.style.display = "none";
+        }
+      } else {
+        gameItem.style.display = "none";
+      }
+
+      // Spotify
+      if (listening_to_spotify && spotify) {
+        hasSpotify = true;
+        spotifyItem.style.display = "flex";
+        spotifyCover.src = spotify.album_art_url;
+        spotifyTitle.innerText = spotify.song;
+        spotifySub.innerText = "od " + spotify.artist;
+
+        if (spotify.track_id) {
+          spotifyListenBtn.href = `https://open.spotify.com/track/${spotify.track_id}`;
+          spotifyListenBtn.style.display = "inline-flex";
+        } else {
+          spotifyListenBtn.style.display = "none";
+        }
+
+        const updateSpotify = () => {
+          const now = Date.now();
+          const start = spotify.timestamps.start;
+          const end = spotify.timestamps.end;
+          const total = end - start;
+          const current = Math.min(now - start, total);
+          const pct = Math.min(Math.max((current / total) * 100, 0), 100);
+
+          progFill.style.width = pct + "%";
+          timeCur.innerText = formatTime(current);
+          timeTot.innerText = formatTime(total);
+        };
+
+        updateSpotify();
+        spotifyInterval = setInterval(updateSpotify, 1000);
+      } else {
+        spotifyItem.style.display = "none";
+      }
+
+      if (hasGame || hasSpotify) {
+        actBox.style.display = "flex";
+      } else {
+        actBox.style.display = "none";
+      }
+    }
+
+    function connectLanyardWS() {
+      const ws = new WebSocket("wss://api.lanyard.rest/socket");
+
+      ws.onopen = () => {
+        ws.send(JSON.stringify({
+          op: 2,
+          d: { subscribe_to_id: DISCORD_ID }
+        }));
+      };
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.t === "INIT_STATE" || data.t === "PRESENCE_UPDATE") {
+          updateLanyardData(data.d);
+        }
+      };
+
+      ws.onclose = () => {
+        setTimeout(connectLanyardWS, 5000);
+      };
+    }
+
+    connectLanyardWS();
   </script>
 </body>
 </html>

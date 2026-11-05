@@ -319,6 +319,36 @@
       color: #e1306c;
     }
 
+
+    .visitor-counter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 16px;
+      padding: 9px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #b9bbbe;
+      font-size: 0.85rem;
+    }
+
+    .visitor-counter i {
+      color: #a78bfa;
+      font-size: 1rem;
+    }
+
+    .visitor-counter strong {
+      color: #fff;
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+    }
+
+    .visitor-counter .counter-label {
+      color: #a3a6aa;
+    }
+
     footer {
       margin-top: 22px;
       font-size: 0.8rem;
@@ -441,6 +471,11 @@
     <footer>
       <div class="dnd-note">
         <i class="fa-solid fa-moon"></i> DND stav mám jen kvůli Discordu, ale i tak jsem stále na příjmu!
+      </div>
+      <div class="visitor-counter" aria-label="Počet návštěv stránky">
+        <i class="fa-regular fa-eye" aria-hidden="true"></i>
+        <strong id="visitor-count">Načítám…</strong>
+        <span class="counter-label">zobrazení</span>
       </div>
       <span>© 2026 • Všechna práva vyhrazena</span>
     </footer>
